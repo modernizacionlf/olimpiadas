@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_15_151755) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_16_120006) do
   create_table "institutes", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -25,6 +25,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_15_151755) do
     t.integer "institute_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "delegate", default: false
     t.index ["institute_id"], name: "index_students_on_institute_id"
   end
 

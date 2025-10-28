@@ -14,4 +14,5 @@ Rails.application.routes.draw do
   root "home#index"
 
   resources :games, only: %i[index show]
+  resources :releases, only: %i[index]
 end

@@ -8,6 +8,13 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
+User.create!(
+  email_address: 'admin@gmail.com',
+  password: 'test',
+  password_confirmation: 'test',
+  admin: true
+)
+
 [
   'instituto secundario san miguel',
   'instituto técnico regional',

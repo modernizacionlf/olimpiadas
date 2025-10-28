@@ -15,4 +15,5 @@ Rails.application.routes.draw do
 
   resources :games, only: %i[index show]
   resources :releases, only: %i[index]
+  resources :gallery, only: %i[index new create]
 end

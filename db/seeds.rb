@@ -57,3 +57,46 @@ los_alamos = Institute.find(3)
     )
   end
 end
+
+[
+  [
+    'inicia la XX olimpiada estudiantil nacional 2025',
+    'La ciudad de Mendoza dio la bienvenida a más de 3.000 jóvenes de todo el país para participar en la vigésima edición de la Olimpiada Estudiantil Nacional. Durante una semana, los estudiantes competirán en disciplinas científicas, deportivas y artísticas, promoviendo la excelencia y el trabajo en equipo.'
+  ],
+  [
+    'récord de participación en la olimpiada de ciencias',
+    'Más de 500 alumnos de secundaria participaron en la Olimpiada Nacional de Ciencias, donde presentaron experimentos innovadores sobre energía sustentable y biotecnología. El jurado destacó el alto nivel de creatividad y rigor científico mostrado por los competidores.'
+  ],
+  [
+    'teatro y creatividad brillan en la olimpiada cultural',
+    'El certamen teatral de la Olimpiada Estudiantil sorprendió con obras originales que abordaron temas sociales y medioambientales. El grupo del Colegio San Martín se llevó el primer lugar con su puesta en escena “Voces del Futuro”.'
+  ],
+  [
+    'final de fútbol estudiantil termina con empate histórico',
+    'la final de fútbol masculino entre el Instituto Central y la Escuela Técnica N°4 terminó 2-2 tras un intenso encuentro. La definición por penales coronó campeones a los técnicos, que dedicaron su triunfo a su entrenador recientemente jubilado.'
+  ],
+  [
+    'jóvenes artistas exponen sus obras en la olimpiada de arte',
+    'en el marco de la Olimpiada Estudiantil, se inauguró una muestra con más de 200 obras de pintura, fotografía y escultura. Los temas giraron en torno a la identidad juvenil y la diversidad cultural, recibiendo elogios del público y la crítica local.'
+  ],
+  [
+    'estudiante de 14 años gana la olimpiada de matemáticas',
+    'Sofía Ríos, alumna de primer año, sorprendió al jurado al resolver en tiempo récord los problemas más complejos de la competencia. Su desempeño la clasificó directamente para representar al país en la Olimpiada Internacional de Matemáticas.'
+  ],
+  [
+    'olimpiada estudiantil impulsa la inclusión y el trabajo en equipo',
+    'Este año se implementaron nuevas categorías mixtas y adaptadas para estudiantes con discapacidad, promoviendo la participación equitativa. Los organizadores destacaron el impacto positivo de la iniciativa en la convivencia escolar.'
+  ],
+  [
+    'clausura con mensaje ecológico y compromiso juvenil',
+    'El acto de cierre de la Olimpiada Estudiantil incluyó la plantación simbólica de 1.000 árboles en el Parque Central. Los delegados estudiantiles firmaron un compromiso ambiental para reducir el uso de plásticos y fomentar el reciclaje en sus escuelas.'
+  ]
+].each do |release|
+  title = release[0]
+  description = release[1]
+
+  Release.create!(
+    title:title,
+    description:description
+  )
+end

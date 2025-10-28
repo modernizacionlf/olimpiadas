@@ -1,5 +1,6 @@
 class ReleasesController < ApplicationController
   def index
+    @releases = Release.all.first(6)
   end
 
   def show

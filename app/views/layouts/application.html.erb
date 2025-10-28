@@ -26,9 +26,9 @@
     <div class="logo-olimpiadas"> <h1>LOGO</h1></div>
     <nav class="navbar">
       <ul>
-        <li><a href="Home">Inicio</a></li>
+        <li><%= link_to "Home", root_path %></li>
         <li><a href="Mews">Noticias</a></li>
-        <li><a href="Matches">Partidos</a></li>
+        <li><%= link_to "Partidos", games_path %></li>
         <li><a href="Standings_Table">Posiciones</a></li>
         <li><a href="Sports">Deportes</a></li>
       </ul>

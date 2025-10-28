@@ -4,7 +4,13 @@
   <h3>Titulo</h3>
   <p>Subtitulo</p>
 </div>
-<div class="release">
-  <img>Portada</img>
-  <h5>Titulo</h5>
-</div>
+<% if @releases.present? %>
+  <% @releases.each do |release| %>
+    <div class="release">
+      <img>Portada</img>
+      <h5><%= release.title.titleize %></h5>
+      <p><%= release.description.capitalize %></p>
+    </div>
+  <% end %>
+<% end %>
+

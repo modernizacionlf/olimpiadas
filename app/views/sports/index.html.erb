@@ -1,0 +1,5 @@
+<% if @sports.any? %>
+  <% @sports.each do |sport| %>
+    <h2><%= sport.name.titleize %></h2>
+  <% end %>
+<% end %>

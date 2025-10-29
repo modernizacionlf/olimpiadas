@@ -15,9 +15,11 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "home#index"
 
-  resources :games, only: %i[index show]
   resources :releases, only: %i[index show]
   resources :gallery, only: %i[index new create]
+  resources :sports, only: %i[index show] do
+    resources :games, only: %i[index show]
+  end
 
   namespace :admin do
     resources :games

@@ -4,7 +4,7 @@
   <h3>Titulo</h3>
   <p>Subtitulo</p>
 </div>
-<% if @releases.present? %>
+<% if @releases.any? %>
   <% @releases.each do |release| %>
     <div class="release">
       <img>Portada</img>

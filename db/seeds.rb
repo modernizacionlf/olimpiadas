@@ -107,3 +107,7 @@ end
     description:description
   )
 end
+
+[ 'fútbol', 'basquet', 'voley', 'hockey', 'tenis', 'handball' ].each do |sport_name|
+  Sport.create!(name: sport_name)
+end

@@ -1,15 +1,19 @@
 <div class="games-container">
-  <div class="game">
-    <h3>INSTANCIA TODO</h3>
-    <div class="game-result-container">
-      <img>LOGO PROMO TODO</img>
-      <div class="game-result">
-        <p>
-          <span>Resultado 1</span>
-          -
-          <span>Resultado 2</span>
-        </p>
-      </div>
-    </div>
+  <% if @games.any? %>
+    <% @games.each do |game| %>
+      <div class="game">
+        <h3><%= game.instance.name %></h3>
+        <div class="game-result-container">
+          <img>LOGO PROMO TODO</img>
+          <div class="game-result">
+            <p>
+              <span>Resultado 1</span>
+              -
+              <span>Resultado 2</span>
+            </p>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
   </div>
 </div>

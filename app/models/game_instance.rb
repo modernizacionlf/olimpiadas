@@ -1,0 +1,2 @@
+class GameInstance < ApplicationRecord
+end

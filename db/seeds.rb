@@ -111,3 +111,15 @@ end
 [ 'fútbol', 'basquet', 'voley', 'hockey', 'tenis', 'handball' ].each do |sport_name|
   Sport.create!(name: sport_name)
 end
+
+[
+  'fase de grupo',
+  'octavos',
+  'cuartos',
+  'semifinal',
+  'final'
+].each do |instance_game|
+  GameInstance.create!(name: instance_game)
+end
+
+Game.create!(game_instance_id: 2)

@@ -122,4 +122,4 @@ end
   GameInstance.create!(name: instance_game)
 end
 
-Game.create!(game_instance_id: 2, result_a: 3, result_b: 5)
+Game.create!(sport_id: 1, game_instance_id: 2, result_a: 3, result_b: 5)

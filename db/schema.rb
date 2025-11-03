@@ -56,13 +56,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_03_131833) do
     t.index ["sport_id"], name: "index_games_on_sport_id"
   end
 
-  create_table "images", force: :cascade do |t|
-    t.string "title", null: false
-    t.string "description", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "institutes", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", null: false

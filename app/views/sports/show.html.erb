@@ -1,20 +1,27 @@
-<div class="games-container">
+<section class="games-container">
   <% if @games.any? %>
     <% @games.each do |game| %>
+      <h3><%= @sport.name.titleize %></h3>
       <div class="game">
         <h3><%= game.instance.name %></h3>
         <div class="game-result-container">
-          <img>LOGO PROMO TODO</img>
           <div class="game-result">
+            <img>LOGO PROMO TODO</img>
             <p>
               <span><%= game.result_a %></span>
               -
               <span><%= game.result_b %></span>
             </p>
+            <img>LOGO PROMO TODO</img>
           </div>
         </div>
       <% end %>
     <% end %>
   </div>
-</div>
-
+</section>
+<hr></hr>
+<section class="rules-container">
+  <h3>Reglamento de:TODO_NOMBRE_DEPORTE</h3>
+  <p>TODO_REGLAMENTO_TEXTO</P>
+  <button class"rules-button">DESCARGAR_TODO</button>
+</section>

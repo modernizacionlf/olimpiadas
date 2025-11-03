@@ -17,12 +17,9 @@ Rails.application.routes.draw do
 
   resources :releases, only: %i[index show]
   resources :gallery, only: %i[index new create]
-  resources :sports, only: %i[index show] do
-    resources :games, only: %i[index show]
-  end
+  resources :sports, only: %i[index show]
 
   namespace :admin do
-    resources :games
     resources :releases
     resources :gallery
   end

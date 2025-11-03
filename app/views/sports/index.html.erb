@@ -2,7 +2,7 @@
   <% if @sports.any? %>
     <% @sports.each do |sport| %>
       <div class="sport">
-        <img><%= link_to "TODO", sport_games_path(sport) %></img>
+        <img><%= link_to "TODO", sport_path(sport) %></img>
         <h2><%= sport.name.titleize %></h2>
       </div>
     <% end %>

@@ -1,9 +1,13 @@
 <h2>NOTICIAS</h2>
-<div class="best-release">
-  <img>Portada</img>
-  <h3>Titulo</h3>
-  <p>Subtitulo</p>
-</div>
+<% if @most_viewed.present? %>
+  <div class="most_viewed-release">
+    <% if @most_viewed.image.attached? %>
+      <img src=<%= url_for(@most_viewed.image) %>></img>
+    <% end %>
+    <h3><%= @most_viewed.title.titleize %></h3>
+    <p><%= @most_viewed.description.capitalize %></p>
+  </div>
+<% end %>
 
 <% if @releases.any? %>
   <% @releases.each do |release| %>

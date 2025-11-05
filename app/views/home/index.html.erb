@@ -1,7 +1,8 @@
+<%= stylesheet_link_tag "home/index" %>
 <section class="content-section" aria-labelledby="news-title">
-  <header class="news-hero">
+  <div class="news-hero">
     <div class="news-cover">
-      <h2 id="news-title">PORTADA</h2>
+      <h2 class="news-title">PORTADA</h2>
       <div class="news-subtittle">
         <p>SUBTITULO</p>
         <aside class="news-next-preview" aria-label="Vista previa de la siguiente noticia">
@@ -9,12 +10,12 @@
         </aside>
       </div>
     </div>
-  </header>
+  </div>
 </section>
 
 <% if @games.any? %>
   <section class="content-section">
-    <h2>Partidos</h2>
+    <h2 class="games-title">Partidos</h2>
     <% @games.each do |game| %>
     <div class="game">
       <h4 class="game-instance"><%= game.instance.name.titleize %></h4>
@@ -32,9 +33,9 @@
 </section>
 <% end %> 
 
-<section class="content-section">
-  <h3>Momentos destacados...</h3>
-  <div class="photos">
+<section class="content-section highlights">
+  <h3 "highlight-moments-title">Momentos destacados...</h3>
+  <div class="highlight-photos">
     <div>
       <img>Foto1</img> 
       <p>nombre</p>

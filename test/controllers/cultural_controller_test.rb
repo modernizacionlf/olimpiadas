@@ -6,8 +6,8 @@ class CulturalControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should get view" do
-    get cultural_view_url
+  test "should get show" do
+    get cultural_show_url
     assert_response :success
   end
 end

@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  get "cultural/index"
-  get "cultural/view"
   resource :session
   resources :passwords, param: :token
   # get "home/index"

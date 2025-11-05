@@ -5,7 +5,7 @@ class CulturalController < ApplicationController
     @culturals = Cultural.all
   end
 
-  def view
+  def show
     @cultural = Cultural.find(params[:id])
   end
 end

@@ -16,9 +16,10 @@ Rails.application.routes.draw do
   root "home#index"
 
   resources :releases, only: %i[index show]
-  resources :gallery, only: %i[index new create]
   resources :sports, only: %i[index show]
   resources :cultural, only: %i[index show]
+  resources :promo, only: %i[index show]
+  resources :gallery, only: %i[index new create]
 
   namespace :admin do
     resources :releases

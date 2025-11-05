@@ -1,4 +1,6 @@
 class PromoController < ApplicationController
+  allow_unauthenticated_access only: %i[index show]
+
   def index
     @promos = Promo.all
   end

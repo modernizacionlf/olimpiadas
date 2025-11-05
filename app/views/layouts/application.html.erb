@@ -24,23 +24,26 @@
 
   <body>
     <header>
-      <div class="logo-olimpiadas"> <h1>LOGO</h1></div>
+      <div> <h1>LOGO</h1></div>
       <nav class="navbar">
         <% if Current.user.present? && Current.user.admin? %>
-          <ul>
+          <ul class="admin-links">
             <li><%= link_to admin_releases_path %></li>
             <li><%= link_to admin_games_path %></li>
             <li><%= link_to admin_gallery_path %></li>
           </ul>
         <% else %>
-          <ul>
-            <%= link_to 'Iniciar Sesión', new_session_path %>
+          <ul class ="main-links">
             <li><%= link_to "home", root_path %></li>
             <li><%= link_to "noticias", releases_path %></li>
             <li><%= link_to "deportes", sports_path %></li>
             <li><%= link_to "culturales", cultural_index_path %></li>
             <li><%= link_to "promos", promo_index_path %></li>
             <li><%= link_to "galeria", gallery_index_path %></li>
+          </ul>
+
+          <ul class="login">
+            <%= link_to 'Iniciar Sesión', new_session_path %>
           </ul>
         <% end %>
       </nav>
@@ -52,27 +55,25 @@
   </body>
 
   <footer>
-    <div class="footer-container">
-      <div class="footer-logo-left"><h2>LOGO_MUNI</h2></div>
-      <div class="footer-links">
-        <ul>
-          <li>
-            <a href="https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.instagram.com/juventudeslasflores/%3Fhl%3Des-la&ved=2ahUKEwiCkv7EltaQAxWkqJUCHTf8GsIQFnoECCEQAQ&usg=AOvVaw0hPzQC2MjopU8FTkYIC-pP" target="_blank">
-              Instagram
-            </a>
-          </li>
-          <li>
-            <a href="https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.facebook.com/juventudeslasflores/&ved=2ahUKEwj9nv3Nl9aQAxWcLbkGHfdOA0cQFnoECCEQAQ&usg=AOvVaw3EXfXxU922VYUpv7ECeWYO" target="_blank">
-              Facebook
-            </a>
-          </li>
-          <li>
-            <p>Hecho por Modernización y PROMOXV: Theo López - Lautaro Solei</p>
-          </li>
-        </u>
-      </div>
-      <div class"copyright"><p>&copy; Ejemplo: Juventudes/Modernizacion Las Flores</p></div>
-      <div class="footer-logo-right"><h2>LOGO_OLIMP</h2></div>
+    <div><h2>LOGO_MUNI</h2></div>
+    <div>
+      <ul>
+        <li>
+          <a href="https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.instagram.com/juventudeslasflores/%3Fhl%3Des-la&ved=2ahUKEwiCkv7EltaQAxWkqJUCHTf8GsIQFnoECCEQAQ&usg=AOvVaw0hPzQC2MjopU8FTkYIC-pP" target="_blank">
+            Instagram
+          </a>
+        </li>
+        <li>
+          <a href="https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.facebook.com/juventudeslasflores/&ved=2ahUKEwj9nv3Nl9aQAxWcLbkGHfdOA0cQFnoECCEQAQ&usg=AOvVaw3EXfXxU922VYUpv7ECeWYO" target="_blank">
+            Facebook
+          </a>
+        </li>
+        <li>
+          <p>Hecho por Modernización y PROMOXV: Theo López - Lautaro Solei</p>
+        </li>
+      </u>
     </div>
+    <div><p>&copy; Ejemplo: Juventudes/Modernizacion Las Flores</p></div>
+    <div><h2>LOGO_OLIMP</h2></div>
   </footer>
 </html>

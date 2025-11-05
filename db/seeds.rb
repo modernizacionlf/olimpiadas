@@ -132,3 +132,38 @@ end
 end
 
 Game.create!(sport_id: 1, game_instance_id: 2, result_a: 3, result_b: 5)
+
+[
+  [
+    "La Fiesta de la Independencia",
+    "La Fiesta de la Independencia es una de las celebraciones más importantes en el país, con desfiles, música, danzas tradicionales, y una fuerte presencia de la cultura nacional. Se celebra cada 16 de septiembre con actividades que se extienden por toda la ciudad."
+  ],
+  [
+    "Festival de Música Folklórica",
+    "El Festival de Música Folklórica reúne a los mejores músicos y danzantes de diversas regiones, ofreciendo un espectáculo único que celebra las raíces de la música popular tradicional. Durante tres días, se pueden disfrutar de conciertos, talleres y bailes en vivo."
+  ],
+  [
+    "Día de Muertos",
+    "El Día de Muertos es una de las festividades más emblemáticas de la cultura mexicana. Las familias crean altares en honor a sus seres queridos fallecidos, decorados con flores de cempasúchil, velas y alimentos tradicionales como pan de muerto y calaveras de azúcar."
+  ],
+  [
+    "Carnaval de Barranquilla",
+    "El Carnaval de Barranquilla es uno de los eventos culturales más importantes de Colombia, con una mezcla vibrante de música, danza, disfraces y tradiciones. Es considerado Patrimonio Cultural Inmaterial de la Humanidad por la UNESCO."
+  ],
+  [
+    "La Feria de Abril",
+    "La Feria de Abril de Sevilla es una de las festividades más famosas de España. Durante una semana, la ciudad se llena de casetas, música flamenca, bailes y corridas de toros. Es una celebración de la cultura andaluza, con una atmósfera llena de color y alegría."
+  ]
+].each do |title, description|
+  cultural = Cultural.create!(
+    title: title,
+    description: description
+  )
+  cultural.image.attach(
+    io: File.open(
+      Rails.root.join("app", "assets", "images", "cultural", "test.jpeg")
+    ),
+    filename: "test.jpg",
+    content_type: "image/jpg"
+  )
+end

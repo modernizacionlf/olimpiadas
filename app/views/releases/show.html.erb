@@ -1,7 +1,9 @@
 <div class="header-realese">
-<img><%= @realese.img %></img>
-<h1><%= @release.title.titleize %></h1>+
+<% if @release.image.attached? %>
+  <img src=<%= url_for(@release.image) %>></img>
+<% end %>
+<h1><%= @release.title.titleize %></h1>
 </div>
 <div class="body-realese">
-  <p><%= @release.description %></p>
+  <p><%= @release.description.capitalize %></p>
 </div>

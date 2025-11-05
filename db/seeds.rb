@@ -102,9 +102,18 @@ end
   title = release[0]
   description = release[1]
 
-  Release.create!(
+  release = Release.create!(
     title:title,
     description:description
+  )
+  release.image.attach(
+    io: File.open(
+      Rails.root.join(
+        'app', 'assets', 'images', 'releases', 'test.jpg'
+      )
+    ),
+    filename: 'test.jpg',
+    content_type: 'image/jpg'
   )
 end
 

@@ -1,2 +1,10 @@
-<h1>Promo#index</h1>
-<p>Find me in app/views/promo/index.html.erb</p>
+<div class="promos-container">
+    <% if @promos.any? %>
+      <% @promos.each do |promo| %>
+        <div class="promo">
+          <img src=<%= url_for(promo.image)%>></img>
+          <%= link_to promo.name.titleize, promo_path(promo) %>
+        </div>
+      <% end %>
+    <% end %>
+</div>

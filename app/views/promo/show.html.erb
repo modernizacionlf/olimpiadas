@@ -1,2 +1,15 @@
-<h1>Promo#show</h1>
-<p>Find me in app/views/promo/show.html.erb</p>
+<section class="header-promo">
+  <% @promo.image.attached? %>
+    <img src=<%= url_for(promo.image)%>></img>
+  <% end %>
+
+  <% @promo.students.any? %>
+    <% @promo.students.each do |student| %>
+      <% student.image.attached? %>
+        <img src=<%= url_for(student.image) %>></img>
+      <% end %>
+
+      <p><%= student.full_name %></p>
+    <% end %>
+  <% end %>
+</section>

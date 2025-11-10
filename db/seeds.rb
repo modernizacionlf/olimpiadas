@@ -27,6 +27,10 @@ san_miguel = Institute.find(1)
 tecnico_regional = Institute.find(2)
 los_alamos = Institute.find(3)
 
+["naturales", "sociales"].each do |promo|
+  Promo.create!(institute_id: 1, name: promo)
+end
+
 [
   {
     institute: san_miguel,
@@ -60,7 +64,8 @@ los_alamos = Institute.find(3)
     institute.students.create!(
       first_name: first_name,
       last_name: last_name,
-      age: age
+      age: age,
+      promo_id: 1
     )
   end
 end

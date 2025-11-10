@@ -1,10 +1,11 @@
 <div class="promos-container">
-    <% if @promos.any? %>
-      <% @promos.each do |promo| %>
-        <div class="promo">
-          <img src=<%= url_for(promo.image)%>></img>
-          <%= link_to promo.name.titleize, promo_path(promo) %>
-        </div>
+  <% Institute.all.each do |institute| %>
+    <p><%= institute.name.titleize %></p>
+    <% institute.promos.each do |promo| %>
+      <p><%= promo.name.titleize %></p>
+      <% promo.students.each do |student| %>
+        <p><%= student.full_name.titleize %></p>
       <% end %>
     <% end %>
+  <% end %>
 </div>

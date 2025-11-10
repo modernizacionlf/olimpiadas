@@ -1,15 +1,26 @@
-<section class="header-promo">
+<section class="header-promo"> 
   <% @promo.image.attached? %>
     <img src=<%= url_for(promo.image)%>></img>
+    <p>NOMBRE PROMO TODO</p>
   <% end %>
-
+</section>
+<section class="members">
+  <h3>Integrantes</h3>
   <% @promo.students.any? %>
     <% @promo.students.each do |student| %>
       <% student.image.attached? %>
         <img src=<%= url_for(student.image) %>></img>
       <% end %>
-
       <p><%= student.full_name %></p>
     <% end %>
   <% end %>
+  <nav class="paginacion">
+    <ul>
+      <li><a href="#">PAGINACION TODO</a></li>
+    </ul>
+  </nav>
+</section>
+<section class="points">
+  <img>LOGO TODO</img>
+  <p>PUNTOS TODO</p>  
 </section>

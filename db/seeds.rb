@@ -8,6 +8,10 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
+%w[cultural sport].each do |activity_type|
+  ActivityType.create!(name: activity_type)
+end
+
 User.create!(
   email_address: 'admin@gmail.com',
   password: 'test',

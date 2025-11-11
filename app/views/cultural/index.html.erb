@@ -2,10 +2,8 @@
   <% if @culturals.any? %>
     <% @culturals.each do |cultural| %>
       <div class="sport">
-        <%= link_to cultural_path(cultural) do %>
-          <img src=<%= url_for(cultural.image) %>></img>
-        <% end %>
-        <h2><%= cultural.title.titleize %></h2>
+        <%= image_tag cultural.image %>
+        <h2><%=link_to cultural.title.titleize, cultural_path(cultural) %></h2>
       </div>
     <% end %>
   <% end %>

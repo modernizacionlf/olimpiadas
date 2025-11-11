@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_11_11_133024) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_11_133838) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -37,6 +37,20 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_11_133024) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "activities", force: :cascade do |t|
+    t.date "date_of"
+    t.time "start_at"
+    t.time "end_at"
+    t.integer "place_id", null: false
+    t.integer "activity_type_id", null: false
+    t.integer "student_team_id_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["activity_type_id"], name: "index_activities_on_activity_type_id"
+    t.index ["place_id"], name: "index_activities_on_place_id"
+    t.index ["student_team_id_id"], name: "index_activities_on_student_team_id_id"
   end
 
   create_table "activity_types", force: :cascade do |t|
@@ -114,6 +128,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_11_133024) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "student_teams", force: :cascade do |t|
+    t.integer "institute_id", null: false
+    t.integer "student_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["institute_id"], name: "index_student_teams_on_institute_id"
+    t.index ["student_id"], name: "index_student_teams_on_student_id"
+  end
+
   create_table "students", force: :cascade do |t|
     t.string "first_name", null: false
     t.string "last_name", null: false
@@ -138,10 +161,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_11_133024) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "activities", "activity_types"
+  add_foreign_key "activities", "places"
+  add_foreign_key "activities", "student_team_ids"
   add_foreign_key "games", "game_instances"
   add_foreign_key "games", "sports"
   add_foreign_key "promos", "institutes"
   add_foreign_key "sessions", "users"
+  add_foreign_key "student_teams", "institutes"
+  add_foreign_key "student_teams", "students"
   add_foreign_key "students", "institutes"
   add_foreign_key "students", "promos"
 end

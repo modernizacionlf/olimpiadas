@@ -2,6 +2,9 @@ class Student < ApplicationRecord
   belongs_to :institute
   belongs_to :promo
 
+  has_many :student_teams, dependent: :destroy
+  has_many :teams, through: :student_teams, source: :institute
+
   has_one_attached :image
 
   validates :first_name, :last_name, length: { maximum: 60 }, presence: true

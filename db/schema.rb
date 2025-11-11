@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_11_11_133838) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_11_135500) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -45,12 +45,19 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_11_133838) do
     t.time "end_at"
     t.integer "place_id", null: false
     t.integer "activity_type_id", null: false
-    t.integer "student_team_id_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["activity_type_id"], name: "index_activities_on_activity_type_id"
     t.index ["place_id"], name: "index_activities_on_place_id"
-    t.index ["student_team_id_id"], name: "index_activities_on_student_team_id_id"
+  end
+
+  create_table "activity_teams", force: :cascade do |t|
+    t.integer "activity_id", null: false
+    t.integer "student_team_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["activity_id"], name: "index_activity_teams_on_activity_id"
+    t.index ["student_team_id"], name: "index_activity_teams_on_student_team_id"
   end
 
   create_table "activity_types", force: :cascade do |t|
@@ -163,7 +170,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_11_133838) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "activities", "activity_types"
   add_foreign_key "activities", "places"
-  add_foreign_key "activities", "student_team_ids"
+  add_foreign_key "activity_teams", "activities"
+  add_foreign_key "activity_teams", "student_teams"
   add_foreign_key "games", "game_instances"
   add_foreign_key "games", "sports"
   add_foreign_key "promos", "institutes"

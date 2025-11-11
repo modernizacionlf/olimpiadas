@@ -6,7 +6,6 @@ one:
   end_at: 2025-11-11 10:34:35
   place: one
   activity_type: one
-  student_team_id: one
 
 two:
   date_of: 2025-11-11
@@ -14,4 +13,3 @@ two:
   end_at: 2025-11-11 10:34:35
   place: two
   activity_type: two
-  student_team_id: two

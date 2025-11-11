@@ -1,9 +1,8 @@
 class Student < ApplicationRecord
-  belongs_to :institute
   belongs_to :promo
 
-  has_many :student_teams, dependent: :destroy
-  has_many :teams, through: :student_teams, source: :institute
+  has_many :activity_students, dependent: :destroy
+  has_many :activities, through: :activity_students
 
   has_one_attached :image
 

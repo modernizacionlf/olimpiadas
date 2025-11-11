@@ -8,10 +8,6 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-%w[cultural sport].each do |activity_type|
-  ActivityType.create!(name: activity_type)
-end
-
 User.create!(
   email_address: 'admin@gmail.com',
   password: 'test',
@@ -19,177 +15,204 @@ User.create!(
   admin: true
 )
 
-[
-  'instituto secundario san miguel',
-  'instituto técnico regional',
-  'colegion secundario los álamos'
-].each do |institute_name|
-  Institute.create!(name: institute_name)
+# Lugares
+['cef', 'natatorio municipal', 'polideportivo municipal'].each do |place|
+  Place.create!(name: place)
 end
 
-san_miguel = Institute.find(1)
-tecnico_regional = Institute.find(2)
-los_alamos = Institute.find(3)
-
-["naturales", "sociales"].each do |promo|
-  promo = Promo.create!(institute_id: 1, name: promo)
-  promo.logo.attach(
-    io: File.open(
-      Rails.root.join(
-        'app', 'assets', 'images', 'promos', 'logo.jpeg'
-      )
-    ),
-    filename: 'logo.jpeg',
-  content_type: 'image/jpeg')
+# Deportes
+%w[tenis natacion futbol].each do |sport|
+  Sport.create!(name: sport)
 end
 
-[
+['fase de grupos', 'octavos', 'cuartos', 'semifinal', 'final'].each do |game_instance|
+  GameInstance.create!(name: game_instance)
+end
+
+# Actividades
+%w[cultural sport].each do |activity_type|
+  ActivityType.create!(name: activity_type)
+end
+
+activities = [
   {
-    institute: san_miguel,
-    students: [
-      [ 'martín', 'lópez', 17 ],
-      [ 'camila', 'rodríguez', 18 ],
-      [ 'sofía', 'herrera', 16 ]
-    ]
+    game_instance: 'fase de grupos',
+    sport: 'futbol',
+    activity_type: 'sport',
+    place: 'cef',
+    date_of: Date.today.next_day(5),
+    start_at: '16:00',
+    end_at: '17:00'
   },
   {
-    institute: tecnico_regional,
-    students: [
-      [ 'maria', 'pérez', 18 ],
-      [ 'juan', 'gómez', 18 ],
-      [ 'diego', 'castillo', 17 ]
-    ]
+    game_instance: 'fase de grupos',
+    sport: 'futbol',
+    activity_type: 'sport',
+    place: 'cef',
+    date_of: Date.today.next_day(7),
+    start_at: '16:30',
+    end_at: '17:30'
   },
-  {
-    institute: los_alamos,
-    students: [
-      [ 'mateo', 'morales', 16 ],
-      [ 'sebastián', 'torres', 17 ],
-      [ 'isabella', 'sánchez', 17 ]
-    ]
-  }
-].each do |institute_hash|
-  institute = institute_hash[:institute]
-  students = institute_hash[:students]
+]
 
-  students.each do |first_name, last_name, age|
-    student = institute.students.create!(
-      first_name: first_name,
-      last_name: last_name,
-      age: age,
-      promo_id: 1
+activities.each do |activity|
+  game_instance = GameInstance.find_by(name: activity[:game_instance])
+  sport = Sport.find_by(name: activity[:sport])
+  game = Game.create!(sport: sport, instance: game_instance)
+
+
+  activity_type = ActivityType.find_by(name: activity[:activity_type])
+  place = Place.find_by(name: activity[:place])
+
+  Activity.create!(
+    date_of: activity[:date_of],
+    start_at: activity[:start_at],
+    end_at: activity[:end_at],
+    place: place,
+    activity_type: activity_type,
+    game: game
+  )
+end
+
+# Escuela Normal Dummy
+escuela_normal = Institute.create!(name: 'escuela normal')
+
+sociales = escuela_normal.promos.create!(name: 'sociales')
+sociales.logo.attach(
+  io: File.open(
+    Rails.root.join(
+      'app', 'assets', 'images', 'promos', 'logo.jpeg'
     )
-    student.image.attach(
-      io: File.open(
-        Rails.root.join(
-          'app', 'assets', 'images', 'students', 'profile.jpeg'
-        )
-      ),
-      filename: 'profile.jpeg',
-      content_type: 'image/jpeg'
+  ),
+  filename: 'logo.jpeg',
+  content_type: 'image/jpeg'
+)
+
+sociales_students = [
+  { first_name: 'juan', last_name: 'perez', age: 18 },
+  { first_name: 'ana', last_name: 'gomez', age: 17 },
+  { first_name: 'carlos', last_name: 'rodriguez', age: 18 },
+  { first_name: 'maria', last_name: 'lopez', age: 19, delegate: true },
+  { first_name: 'luis', last_name: 'fernandez', age: 18 }
+]
+  
+sociales_students.each do |student|
+  sociales.students.create!(student)
+end
+
+
+naturales = escuela_normal.promos.create(name: 'naturales')
+naturales.logo.attach(
+  io: File.open(
+    Rails.root.join(
+      'app', 'assets', 'images', 'promos', 'logo.jpeg'
     )
-  end
+  ),
+  filename: 'logo.jpeg',
+  content_type: 'image/jpeg'
+)
+
+naturales_students = [
+  { first_name: 'pedro', last_name: 'martinez', age: 18, delegate: true },
+  { first_name: 'lucia', last_name: 'sanchez', age: 17 },
+  { first_name: 'laura', last_name: 'garcia', age: 18 },
+  { first_name: 'roberto', last_name: 'torres', age: 18 },
+  { first_name: 'jose', last_name: 'zeballos', age: 17 }
+]
+
+naturales_students.each do |student|
+  naturales.students.create!(student)
 end
 
-[
-  [
-    'inicia la XX olimpiada estudiantil nacional 2025',
-    'La ciudad de Mendoza dio la bienvenida a más de 3.000 jóvenes de todo el país para participar en la vigésima edición de la Olimpiada Estudiantil Nacional. Durante una semana, los estudiantes competirán en disciplinas científicas, deportivas y artísticas, promoviendo la excelencia y el trabajo en equipo.'
-  ],
-  [
-    'récord de participación en la olimpiada de ciencias',
-    'Más de 500 alumnos de secundaria participaron en la Olimpiada Nacional de Ciencias, donde presentaron experimentos innovadores sobre energía sustentable y biotecnología. El jurado destacó el alto nivel de creatividad y rigor científico mostrado por los competidores.'
-  ],
-  [
-    'teatro y creatividad brillan en la olimpiada cultural',
-    'El certamen teatral de la Olimpiada Estudiantil sorprendió con obras originales que abordaron temas sociales y medioambientales. El grupo del Colegio San Martín se llevó el primer lugar con su puesta en escena “Voces del Futuro”.'
-  ],
-  [
-    'final de fútbol estudiantil termina con empate histórico',
-    'la final de fútbol masculino entre el Instituto Central y la Escuela Técnica N°4 terminó 2-2 tras un intenso encuentro. La definición por penales coronó campeones a los técnicos, que dedicaron su triunfo a su entrenador recientemente jubilado.'
-  ],
-  [
-    'jóvenes artistas exponen sus obras en la olimpiada de arte',
-    'en el marco de la Olimpiada Estudiantil, se inauguró una muestra con más de 200 obras de pintura, fotografía y escultura. Los temas giraron en torno a la identidad juvenil y la diversidad cultural, recibiendo elogios del público y la crítica local.'
-  ],
-  [
-    'estudiante de 14 años gana la olimpiada de matemáticas',
-    'Sofía Ríos, alumna de primer año, sorprendió al jurado al resolver en tiempo récord los problemas más complejos de la competencia. Su desempeño la clasificó directamente para representar al país en la Olimpiada Internacional de Matemáticas.'
-  ],
-  [
-    'olimpiada estudiantil impulsa la inclusión y el trabajo en equipo',
-    'Este año se implementaron nuevas categorías mixtas y adaptadas para estudiantes con discapacidad, promoviendo la participación equitativa. Los organizadores destacaron el impacto positivo de la iniciativa en la convivencia escolar.'
-  ],
-  [
-    'clausura con mensaje ecológico y compromiso juvenil',
-    'El acto de cierre de la Olimpiada Estudiantil incluyó la plantación simbólica de 1.000 árboles en el Parque Central. Los delegados estudiantiles firmaron un compromiso ambiental para reducir el uso de plásticos y fomentar el reciclaje en sus escuelas.'
-  ]
-].each do |release|
-  title = release[0]
-  description = release[1]
+# Escuela San Miguel Dummy
+san_miguel = Institute.create!(name: 'escuela san miguel')
 
-  release = Release.create!(
-    title:title,
-    description:description
-  )
-  release.image.attach(
-    io: File.open(
-      Rails.root.join(
-        'app', 'assets', 'images', 'releases', 'test.jpg'
-      )
-    ),
-    filename: 'test.jpg',
-    content_type: 'image/jpg'
-  )
+economia = san_miguel.promos.create!(name: 'economia')
+
+economia_students = [
+  { first_name: 'martin', last_name: 'gonzales', age: 18 },
+  { first_name: 'cecilia', last_name: 'sosa', age: 17 },
+  { first_name: 'ricardo', last_name: 'lopez', age: 18, delegate: true },
+  { first_name: 'valentina', last_name: 'mendez', age: 18 },
+  { first_name: 'federico', last_name: 'castillo', age: 17 }
+]
+
+economia_students.each do |student|
+  economia.students.create!(student)
 end
 
-[ 'fútbol', 'basquet', 'voley', 'hockey', 'tenis', 'handball' ].each do |sport_name|
-  Sport.create!(name: sport_name)
+economia.logo.attach(
+  io: File.open(
+    Rails.root.join(
+      'app', 'assets', 'images', 'promos', 'logo.jpeg'
+    )
+  ),
+  filename: 'logo.jpeg',
+  content_type: 'image/jpeg'
+)
+
+# Fusion Escuela 4 y Escuela 21 Dummy
+escuela_4 = Institute.create!(name: 'escuela 4')
+
+musica = escuela_4.promos.create(name: 'musica')
+musica.logo.attach(
+  io: File.open(
+    Rails.root.join(
+      'app', 'assets', 'images', 'promos', 'logo.jpeg'
+    )
+  ),
+  filename: 'logo.jpeg',
+  content_type: 'image/jpeg'
+)
+
+musica_students = [
+  { first_name: 'luciano', last_name: 'perez', age: 18 },
+  { first_name: 'agustina', last_name: 'diaz', age: 17, delegate: true },
+  { first_name: 'tomas', last_name: 'ramirez', age: 18 }
+]
+
+musica_students.each do |student|
+  musica.students.create!(student)
 end
 
-[
-  'fase de grupo',
-  'octavos',
-  'cuartos',
-  'semifinal',
-  'final'
-].each do |instance_game|
-  GameInstance.create!(name: instance_game)
+
+escuela_21 = Institute.create!(name: 'escuela 21')
+
+arte = escuela_21.promos.create(name: 'arte')
+arte.logo.attach(
+  io: File.open(
+    Rails.root.join(
+      'app', 'assets', 'images', 'promos', 'logo.jpeg'
+    )
+  ),
+  filename: 'logo.jpeg',
+  content_type: 'image/jpeg'
+)
+
+arte_students = [
+  { first_name: 'renata', last_name: 'rios', age: 18, delegate: true },
+  { first_name: 'nicolas', last_name: 'vera', age: 17 }
+]
+
+arte_students.each do |student|
+  arte.students.create!(student)
 end
 
-Game.create!(sport_id: 1, game_instance_id: 2, result_a: 3, result_b: 5)
+# Actividades
+Activity.find(1).students << [escuela_normal.promos[0].students, san_miguel.promos[0].students]
 
-[
-  [
-    "La Fiesta de la Independencia",
-    "La Fiesta de la Independencia es una de las celebraciones más importantes en el país, con desfiles, música, danzas tradicionales, y una fuerte presencia de la cultura nacional. Se celebra cada 16 de septiembre con actividades que se extienden por toda la ciudad."
-  ],
-  [
-    "Festival de Música Folklórica",
-    "El Festival de Música Folklórica reúne a los mejores músicos y danzantes de diversas regiones, ofreciendo un espectáculo único que celebra las raíces de la música popular tradicional. Durante tres días, se pueden disfrutar de conciertos, talleres y bailes en vivo."
-  ],
-  [
-    "Día de Muertos",
-    "El Día de Muertos es una de las festividades más emblemáticas de la cultura mexicana. Las familias crean altares en honor a sus seres queridos fallecidos, decorados con flores de cempasúchil, velas y alimentos tradicionales como pan de muerto y calaveras de azúcar."
-  ],
-  [
-    "Carnaval de Barranquilla",
-    "El Carnaval de Barranquilla es uno de los eventos culturales más importantes de Colombia, con una mezcla vibrante de música, danza, disfraces y tradiciones. Es considerado Patrimonio Cultural Inmaterial de la Humanidad por la UNESCO."
-  ],
-  [
-    "La Feria de Abril",
-    "La Feria de Abril de Sevilla es una de las festividades más famosas de España. Durante una semana, la ciudad se llena de casetas, música flamenca, bailes y corridas de toros. Es una celebración de la cultura andaluza, con una atmósfera llena de color y alegría."
-  ]
-].each do |title, description|
-  cultural = Cultural.create!(
-    title: title,
-    description: description
-  )
-  cultural.image.attach(
-    io: File.open(
-      Rails.root.join("app", "assets", "images", "cultural", "test.jpeg")
-    ),
-    filename: "test.jpg",
-    content_type: "image/jpg"
-  )
-end
+activity = Activity.find(2)
+activity.students << [escuela_21.promos[0].students, escuela_4.promos[0].students, san_miguel.promos[0].students]
+
+escuela_4_students = escuela_4.promos[0].students
+escuela_21_students = escuela_21.promos[0].students
+
+ActivityStudent.where(
+  activity_id: activity.id,
+  student_id: escuela_4_students.pluck(:id)
+).update_all(together: true)
+
+ActivityStudent.where(
+  activity_id: activity.id,
+  student_id: escuela_21_students.pluck(:id)
+).update_all(together: true)

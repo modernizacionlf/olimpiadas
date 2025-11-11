@@ -2,8 +2,8 @@
 
 one:
   activity: one
-  student_team: one
+  student: one
 
 two:
   activity: two
-  student_team: two
+  student: two

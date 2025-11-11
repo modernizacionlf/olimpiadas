@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_11_11_140921) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_11_165000) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -55,13 +55,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_11_140921) do
     t.index ["place_id"], name: "index_activities_on_place_id"
   end
 
-  create_table "activity_teams", force: :cascade do |t|
+  create_table "activity_students", force: :cascade do |t|
     t.integer "activity_id", null: false
-    t.integer "student_team_id", null: false
+    t.integer "student_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["activity_id"], name: "index_activity_teams_on_activity_id"
-    t.index ["student_team_id"], name: "index_activity_teams_on_student_team_id"
+    t.boolean "together", default: false
+    t.index ["activity_id"], name: "index_activity_students_on_activity_id"
+    t.index ["student_id"], name: "index_activity_students_on_student_id"
   end
 
   create_table "activity_types", force: :cascade do |t|
@@ -139,25 +140,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_11_140921) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "student_teams", force: :cascade do |t|
-    t.integer "institute_id", null: false
-    t.integer "student_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["institute_id"], name: "index_student_teams_on_institute_id"
-    t.index ["student_id"], name: "index_student_teams_on_student_id"
-  end
-
   create_table "students", force: :cascade do |t|
     t.string "first_name", null: false
     t.string "last_name", null: false
     t.integer "age", null: false
-    t.integer "institute_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "delegate", default: false
     t.integer "promo_id", null: false
-    t.index ["institute_id"], name: "index_students_on_institute_id"
     t.index ["promo_id"], name: "index_students_on_promo_id"
   end
 
@@ -176,14 +166,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_11_140921) do
   add_foreign_key "activities", "culturals"
   add_foreign_key "activities", "games"
   add_foreign_key "activities", "places"
-  add_foreign_key "activity_teams", "activities"
-  add_foreign_key "activity_teams", "student_teams"
+  add_foreign_key "activity_students", "activities"
+  add_foreign_key "activity_students", "students"
   add_foreign_key "games", "game_instances"
   add_foreign_key "games", "sports"
   add_foreign_key "promos", "institutes"
   add_foreign_key "sessions", "users"
-  add_foreign_key "student_teams", "institutes"
-  add_foreign_key "student_teams", "students"
-  add_foreign_key "students", "institutes"
   add_foreign_key "students", "promos"
 end

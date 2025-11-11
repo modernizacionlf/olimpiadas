@@ -28,7 +28,15 @@ tecnico_regional = Institute.find(2)
 los_alamos = Institute.find(3)
 
 ["naturales", "sociales"].each do |promo|
-  Promo.create!(institute_id: 1, name: promo)
+  promo = Promo.create!(institute_id: 1, name: promo)
+  promo.logo.attach(
+    io: File.open(
+      Rails.root.join(
+        'app', 'assets', 'images', 'promos', 'logo.jpeg'
+      )
+    ),
+    filename: 'logo.jpeg',
+  content_type: 'image/jpeg')
 end
 
 [
@@ -61,11 +69,20 @@ end
   students = institute_hash[:students]
 
   students.each do |first_name, last_name, age|
-    institute.students.create!(
+    student = institute.students.create!(
       first_name: first_name,
       last_name: last_name,
       age: age,
       promo_id: 1
+    )
+    student.image.attach(
+      io: File.open(
+        Rails.root.join(
+          'app', 'assets', 'images', 'students', 'profile.jpeg'
+        )
+      ),
+      filename: 'profile.jpeg',
+      content_type: 'image/jpeg'
     )
   end
 end

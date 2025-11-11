@@ -1,26 +1,28 @@
-<section class="header-promo"> 
-  <% @promo.image.attached? %>
-    <img src=<%= url_for(promo.image)%>></img>
+<section class="header-promo">
+  <% if @promo.logo.attached? %>
+    <%= image_tag @promo.logo %>
     <p>NOMBRE PROMO TODO</p>
   <% end %>
 </section>
+
 <section class="members">
   <h3>Integrantes</h3>
-  <% @promo.students.any? %>
+  <% if @promo.students.any? %>
     <% @promo.students.each do |student| %>
-      <% student.image.attached? %>
-        <img src=<%= url_for(student.image) %>></img>
+      <% if student.image.attached? %>
+        <%= image_tag student.image %>
       <% end %>
       <p><%= student.full_name %></p>
     <% end %>
   <% end %>
+
   <nav class="paginacion">
     <ul>
       <li><a href="#">PAGINACION TODO</a></li>
     </ul>
   </nav>
 </section>
+
 <section class="points">
-  <img>LOGO TODO</img>
-  <p>PUNTOS TODO</p>  
+  <p>PUNTOS TODO</p>
 </section>

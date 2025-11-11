@@ -2,10 +2,10 @@
   <% Institute.all.each do |institute| %>
     <p><%= institute.name.titleize %></p>
     <% institute.promos.each do |promo| %>
-      <p><%= promo.name.titleize %></p>
-      <% promo.students.each do |student| %>
-        <p><%= student.full_name.titleize %></p>
-      <% end %>
+      <% if promo.logo.attached? %>
+        <%= image_tag promo.logo %>
+        <% end %>
+      <p><%=link_to promo.name.titleize, promo_path(promo) %></p>
     <% end %>
   <% end %>
 </div>

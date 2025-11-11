@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_11_11_135500) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_11_140921) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -47,7 +47,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_11_135500) do
     t.integer "activity_type_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "game_id"
+    t.integer "cultural_id"
     t.index ["activity_type_id"], name: "index_activities_on_activity_type_id"
+    t.index ["cultural_id"], name: "index_activities_on_cultural_id"
+    t.index ["game_id"], name: "index_activities_on_game_id"
     t.index ["place_id"], name: "index_activities_on_place_id"
   end
 
@@ -169,6 +173,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_11_135500) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "activities", "activity_types"
+  add_foreign_key "activities", "culturals"
+  add_foreign_key "activities", "games"
   add_foreign_key "activities", "places"
   add_foreign_key "activity_teams", "activities"
   add_foreign_key "activity_teams", "student_teams"

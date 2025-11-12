@@ -216,3 +216,27 @@ ActivityStudent.where(
   activity_id: activity.id,
   student_id: escuela_21_students.pluck(:id)
 ).update_all(together: true)
+
+# Noticias
+notices = [
+  {
+    title: 'escuela san miguel se corona campeona en el torneo de fútbol',
+    description: 'la final del torneo intercolegial de fútbol celebrado en el estadio municipal se vivió con una gran tensión. la escuela san martín logró vencer a la escuela la providencia por 3-1, llevando el trofeo de campeones a casa. el equipo destacó por su juego en equipo y la gran actuación de su delantero estrella, javier ramírez, quien anotó dos goles cruciales.'
+  },
+  {
+    title: 'escuela numero 4 alcanza los 100 metros de atletismo',
+    description: 'en un evento lleno de emoción, la escuela secundaria la paz destacó en la competencia de atletismo, especialmente en los 100 metros planos. la atleta ana rodríguez cruzó la meta en 11.8 segundos, superando a sus rivales por casi medio segundo. este logro marca el segundo campeonato consecutivo en esta categoría para la paz.'
+  },
+  {
+    title: 'torneo de básquetbol: la escuela normal da la sorpresa',
+    description: 'en un inesperado giro, la escuela el sol derrotó al campeón defensor, el colegio américa, en la final del torneo interescolar de básquetbol. el partido terminó 52-48, con un último minuto dramático que incluyó un triple desde medio campo de carlos garcía, el jugador más destacado del torneo. este triunfo marca la primera vez que el sol gana este certamen.'
+  },
+  {
+    title: 'gran final de voleibol entre escuela técnica y colegio san felipe termina en empate',
+    description: 'la gran final del torneo interescolar de voleibol terminó en un empate técnico después de un intenso partido entre la escuela técnica y el colegio san felipe. el marcador final fue 2-2, debido a que el partido se suspendió por condiciones climáticas adversas. ambos equipos tendrán que disputar un desempate la próxima semana.'
+  }
+]
+
+notices.each do |notice|
+  Release.create!(notice)
+end

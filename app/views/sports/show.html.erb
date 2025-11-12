@@ -1,25 +1,57 @@
-<section class="games-container">
-  <% if @games.any? %>
-    <% @games.each do |game| %>
-      <h3><%= @sport.name.titleize %></h3>
-      <div class="game">
-        <h3><%= game.instance.name %></h3>
-        <div class="game-result-container">
-          <div class="game-result">
-            <img>LOGO PROMO TODO</img>
-            <p>
-              <span><%= game.result_a %></span>
-              -
-              <span><%= game.result_b %></span>
-            </p>
-            <img>LOGO PROMO TODO</img>
+
+<div>
+  <h3><%= @sport.name.titleize %></h3>
+</div>
+
+<% if @activities %>
+  <% @activities.each do |activity| %>
+    <% if activity.game %>
+      <% grouped_students = activity.activity_students.group_by(&:together) %>
+      <% together_promos = grouped_students[true]&.map { |as| as.student.promo}&.uniq || [] %>
+      <% separate_promos = grouped_students[false]&.map { |as| as.student.promo}&.uniq || [] %>
+
+      <section class="game-container">
+        <div class="game">
+          <p><%= activity.game.instance.name.titleize %></p>
+
+          <div class="game-results">
+            <% if together_promos.any? && separate_promos.size == 1 %>
+              <div class="result-a">
+                <div class="promo-group together">
+                  <% together_promos.each do |promo| %>
+                    <%= image_tag promo.logo %>
+                  <% end %>
+                </div>
+              <p><%= activity.game.result_a %></p>
+              </div>
+
+              <div class="result-b">
+                <div class="promo-group separate">
+                  <% separate_promos.each do |promo| %>
+                    <%= image_tag promo.logo %>
+                  <% end %>
+                </div>
+                <p><%= activity.game.result_b %></p>
+              </div>
+
+            <% elsif separate_promos.size == 2 %>
+              <% result_pairs = separate_promos.zip([activity.game.result_a, activity.game.result_b]) %>
+              <% result_pairs.each_with_index do |(promo, result), index| %>
+                <div class="result-<%= index == 0 ? 'a' : 'b' %>">
+                  <div class="promo-group separate">
+                    <%= image_tag promo.logo %>
+                  </div>
+                  <p><%= result %></p>
+                </div>
+              <% end %>
+            <% end %>
           </div>
         </div>
-      <% end %>
+      </section>
     <% end %>
-  </div>
-</section>
-<hr></hr>
+  <% end %>
+<% end %>
+
 <section class="rules-container">
   <h3>Reglamento de:TODO_NOMBRE_DEPORTE</h3>
   <p>TODO_REGLAMENTO_TEXTO</P>

@@ -7,6 +7,9 @@ class SportsController < ApplicationController
 
   def show
     @sport = Sport.find(params[:id])
-    @games = @sport.games
+    @activities = Activity
+      .includes(activity_students: { student: :promo }, game: :sport)
+      .joins(game: :sport)
+      .where(sports: { name: @sport.name })
   end
 end

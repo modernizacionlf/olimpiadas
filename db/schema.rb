@@ -88,8 +88,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_11_165000) do
     t.integer "game_instance_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "result_a"
-    t.integer "result_b"
+    t.integer "result_a", default: 0
+    t.integer "result_b", default: 0
     t.integer "sport_id", null: false
     t.index ["game_instance_id"], name: "index_games_on_game_instance_id"
     t.index ["sport_id"], name: "index_games_on_sport_id"

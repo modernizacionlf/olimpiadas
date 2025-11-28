@@ -1,0 +1,64 @@
+<nav class="w-full" data-controller="navbar">
+  <div class="relative">
+    <!-- Menu List -->
+    <ul data-navbar-target="menu" class="m-0 flex list-none items-center justify-center gap-1 bg-white p-1 shadow dark:border-neutral-700 dark:bg-neutral-800">
+
+      <li>
+        <a href="<%= releases_path %>" class="block rounded-md px-3 py-2 text-sm font-medium text-neutral-950 no-underline transition-colors select-none bg-blue-300 hover:bg-neutral-100 dark:text-neutral-950 dark:hover:bg-neutral-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-600 dark:focus-visible:outline-neutral-200">
+          Noticias
+        </a>
+      </li>
+
+      <li>
+        <a href="<%= sports_path %>" class="block rounded-md px-3 py-2 text-sm font-medium text-neutral-700 no-underline transition-colors select-none bg-red-300 hover:bg-neutral-100 dark:text-neutral-950 dark:hover:bg-neutral-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-600 dark:focus-visible:outline-neutral-200">
+          Deportes
+        </a>
+      </li>
+
+      <li>
+        <a href="<%=gallery_index_path%>" class="block rounded-md px-3 py-2 text-sm font-medium text-neutral-700 no-underline transition-colors select-none hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-neutral-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-600 dark:focus-visible:outline-neutral-200">
+          Galeria
+        </a>
+      </li>
+
+      <li>
+        <a href="<%= cultural_index_path %>" class="block rounded-md px-3 py-2 text-sm font-medium text-neutral-700 no-underline transition-colors select-none hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-neutral-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-600 dark:focus-visible:outline-neutral-200">
+          Culturales
+        </a>
+      </li>
+
+      <li>
+        <a href="<%= promo_index_path %>" class="block rounded-md px-3 py-2 text-sm font-medium text-neutral-700 no-underline transition-colors select-none hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-neutral-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-600 dark:focus-visible:outline-neutral-200">
+          Promos
+        </a>
+      </li>
+
+   </ul>
+
+           <!-- Mobile Menu Content -->
+        <%#<div id="mobile-menu-content" data-navbar-target="content" data-state="closed" class="hidden">%>
+        <%#  <div class="grid grid-cols-1 gap-2 p-2 w-[calc(100vw-2rem)] sm:w-[600px] sm:grid-cols-2">%>
+        <%#    <div class="relative">%>
+        <%#      <button type="button" data-navbar-target="trigger" data-content-id="components-content" data-action="click->navbar#toggleMenu keydown->navbar#handleTriggerKeydown" data-state="closed" class="w-full group flex items-center justify-between gap-1 rounded-md px-3 py-2 text-sm font-medium text-neutral-700 select-none hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-neutral-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-600 dark:focus-visible:outline-neutral-200">%>
+        <%#        Components%>
+        <%#        <svg class="h-3 w-3 transition-transform duration-200 group-data-[state=open]:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">%>
+        <%#          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />%>
+        <%#        </svg>%>
+        <%#      </button>%>
+        <%#    </div>%>
+        <%#%>
+        <%#    <!-- Resources Dropdown -->%>
+        <%#    <div class="relative">%>
+        <%#      <button type="button" data-navbar-target="trigger" data-content-id="resources-content" data-action="click->navbar#toggleMenu keydown->navbar#handleTriggerKeydown" data-state="closed" class="w-full group flex items-center justify-between gap-1 rounded-md px-3 py-2 text-sm font-medium text-neutral-700 select-none hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-neutral-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-600 dark:focus-visible:outline-neutral-200">%>
+        <%#        Resources%>
+        <%#        <svg class="h-3 w-3 transition-transform duration-200 group-data-[state=open]:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">%>
+        <%#          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />%>
+        <%#        </svg>%>
+        <%#      </button>%>
+        <%#    </div>%>
+        <%#  </div>%>
+        <%#</div>%>
+      </div>
+    </div>
+  </div>
+</nav>

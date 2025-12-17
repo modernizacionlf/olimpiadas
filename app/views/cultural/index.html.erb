@@ -1,10 +1,134 @@
-<div class="-culture-container">
-  <% if @culturals.any? %>
-    <% @culturals.each do |cultural| %>
-      <div class="sport">
-        <%= image_tag cultural.image %>
-        <h2><%=link_to cultural.title.titleize, cultural_path(cultural) %></h2>
+<div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+    <div class="mb-16">
+      <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-6">
+        <div>
+          <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold text-slate-900 dark:text-white mb-3 tracking-tight">
+            Actividades Culturales
+          </h1>
+        </div>
+      </div>
+      
+      <p class="text-lg text-slate-600 dark:text-slate-300 max-w-3xl">
+        Descubre las actividades culturales que complementan las competencias deportivas. Arte, música, expresión y creatividad en un solo lugar.
+      </p>
+    </div>
+
+    <% if @culturals.any? %>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+        <% @culturals.each_with_index do |cultural, index| %>
+          <%= link_to cultural_path(cultural), class: "group block" do %>
+            <article class="relative bg-white dark:bg-slate-800 rounded-2xl transition-all duration-300 overflow-hidden h-full flex flex-col hover:-translate-y-2 border border-neutral-300 dark:border-slate-700">
+              <div class="relative h-64 overflow-hidden">
+                <% if cultural.image.attached? %>
+                  <%= image_tag cultural.image,
+                      class: "w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700",
+                      alt: cultural.title %>
+                <% else %>
+                  <div class="w-full h-full bg-neutral-50 flex items-center justify-center relative overflow-hidden">
+                    <svg class="w-24 h-24 text-neutral-300 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/>
+                    </svg>
+                  </div>
+                <% end %>
+              </div>
+
+              <div class="px-6 py-3">
+                <h2 class="text-2xl font-bold text-black leading-tight transition-colors duration-300">
+                  <%= cultural.title.titleize %>
+                </h2>
+              </div>
+
+              <div class="px-6 pt-2 pb-6 flex-1 flex flex-col">
+                <% if cultural.respond_to?(:description) && cultural.description.present? %>
+                  <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed line-clamp-3 mb-4 flex-1">
+                    <%= cultural.description %>
+                  </p>
+                <% end %>
+
+                <div class="flex items-center justify-between pt-4 border-t border-slate-200 dark:border-slate-700">
+                  <span class="text-purple-600 dark:text-purple-400 font-semibold text-sm group-hover:underline">
+                    Ver actividad
+                  </span>
+                  <svg class="w-5 h-5 text-purple-600 dark:text-purple-400 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                  </svg>
+                </div>
+              </div>
+            </article>
+          <% end %>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="flex flex-col items-center justify-center py-20">
+        <div class="w-24 h-24 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mb-6">
+          <svg class="w-12 h-12 text-slate-400 dark:text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/>
+          </svg>
+        </div>
+        <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">
+          No hay actividades disponibles
+        </h3>
+        <p class="text-slate-600 dark:text-slate-400 text-center max-w-md">
+          Las actividades culturales estarán disponibles próximamente.
+        </p>
       </div>
     <% end %>
-  <% end %>
+
+    <div class="mt-20 grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-neutral-300 dark:border-slate-700">
+        <div class="flex items-start gap-4">
+          <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-xl flex items-center justify-center flex-shrink-0">
+            <svg class="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="font-bold text-slate-900 dark:text-white mb-2">
+              Expresión Creativa
+            </h3>
+            <p class="text-sm text-slate-600 dark:text-slate-400">
+              Espacios para desarrollar el arte, la música y la creatividad de todos los participantes.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-neutral-300 dark:border-slate-700">
+        <div class="flex items-start gap-4">
+          <div class="w-12 h-12 bg-pink-100 dark:bg-pink-900/30 rounded-xl flex items-center justify-center flex-shrink-0">
+            <svg class="w-6 h-6 text-pink-600 dark:text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="font-bold text-slate-900 dark:text-white mb-2">
+              Para Todos
+            </h3>
+            <p class="text-sm text-slate-600 dark:text-slate-400">
+              Actividades inclusivas diseñadas para que todos puedan participar y disfrutar.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-neutral-300 dark:border-slate-700">
+        <div class="flex items-start gap-4">
+          <div class="w-12 h-12 bg-rose-100 dark:bg-rose-900/30 rounded-xl flex items-center justify-center flex-shrink-0">
+            <svg class="w-6 h-6 text-rose-600 dark:text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="font-bold text-slate-900 dark:text-white mb-2">
+              Diversión Garantizada
+            </h3>
+            <p class="text-sm text-slate-600 dark:text-slate-400">
+              Momentos memorables llenos de alegría, aprendizaje y experiencias únicas.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

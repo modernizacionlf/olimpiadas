@@ -1,13 +1,168 @@
-<div class="header-event">
-  <img src=<%= url_for(@cultural.image) %>></img>
-  <h1><%= @cultural.title.titleize %></h1>
-</div>
-<div class="body-event">
-  <p><%= @cultural.description %></p>
-</div>
-<hr></hr>
-<section class="rules-container">
-  <p>TODO_REGLAMENTO_TEXTO</P>
-  <button class"rules-button">DESCARGAR_TODO</button>
-</section>
+<div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+  <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+    <div class="mb-8">
+      <%= link_to cultural_index_path, class: "inline-flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors duration-300 group" do %>
+        <svg class="w-5 h-5 transform group-hover:-translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+        </svg>
+        <span class="font-medium">Volver a Actividades Culturales</span>
+      <% end %>
+    </div>
 
+    <article class="bg-white dark:bg-slate-800 border border-neutral-300 dark:border-slate-600 rounded-3xl overflow-hidden">
+      <div class="relative">
+        <% if @cultural.image.attached? %>
+          <div class="relative h-96 lg:h-[32rem] overflow-hidden">
+            <%= image_tag @cultural.image,
+                class: "w-full h-full object-cover",
+                alt: @cultural.title %>
+            <!-- Gradiente overlay -->
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+            
+            <!-- Contenido sobre la imagen -->
+            <div class="absolute bottom-0 left-0 right-0 p-8 lg:p-12">
+              <div class="max-w-4xl">
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-4">
+                  <%= @cultural.title.titleize %>
+                </h1>
+
+                <!-- Metadata -->
+                <div class="flex flex-wrap items-center gap-4">
+                  <% if @cultural.respond_to?(:created_at) %>
+                    <div class="flex items-center gap-2 text-white/90 text-sm">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                      </svg>
+                      <%= @cultural.created_at.strftime("%d de %B, %Y") %>
+                    </div>
+                  <% end %>
+                  
+                  <% if @cultural.respond_to?(:place) && @cultural.place.present? %>
+                    <div class="flex items-center gap-2 text-white/90 text-sm">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                      </svg>
+                      <%= @cultural.place %>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% else %>
+          <div class="relative h-96 lg:h-[32rem] bg-neutral-50 flex items-center justify-center overflow-hidden">
+            <svg class="w-32 h-32 text-neutral-300 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/>
+            </svg>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="px-6 sm:px-8 lg:px-12 py-10 lg:py-14">
+        <div class="prose prose-lg prose-slate dark:prose-invert max-w-none">
+          <div class="px-6 lg:p-12">
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-black leading-tight">
+              <%= @cultural.title.titleize %>
+            </h1>
+          </div>
+
+          <div class="pt-4 text-xl text-slate-700 dark:text-slate-300 leading-relaxed space-y-6">
+            <%= simple_format(@cultural.description, class: "whitespace-pre-line") %>
+          </div>
+        </div>
+
+        <!-- Horario y ubicación destacados -->
+        <% if (@cultural.respond_to?(:schedule) && @cultural.schedule.present?) || 
+              (@cultural.respond_to?(:location) && @cultural.location.present?) %>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+            <% if @cultural.respond_to?(:schedule) && @cultural.schedule.present? %>
+              <div class="p-6 bg-white dark:bg-slate-700 rounded-2xl border border-neutral-300 dark:border-slate-600">
+                <div class="flex items-start gap-4">
+                  <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <svg class="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-slate-900 dark:text-white mb-1">Horario</h4>
+                    <p class="text-slate-600 dark:text-slate-300 text-sm">
+                      <%= @cultural.schedule %>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+
+            <% if @cultural.respond_to?(:location) && @cultural.location.present? %>
+              <div class="p-6 bg-white dark:bg-slate-700 rounded-2xl border border-neutal-300 dark:border-slate-600">
+                <div class="flex items-start gap-4">
+                  <div class="w-12 h-12 bg-pink-100 dark:bg-pink-900/30 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <svg class="w-6 h-6 text-pink-600 dark:text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-slate-900 dark:text-white mb-1">Ubicación</h4>
+                    <p class="text-slate-600 dark:text-slate-300 text-sm">
+                      <%= @cultural.location %>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </article>
+
+    <div class="mt-12">
+      <article class="bg-white dark:bg-slate-800 rounded-3xl overflow-hidden border border-neutral-300 dark:border-slate-700">
+        <div class="bg-gradient-to-r from-purple-500 to-pink-600 px-8 py-6">
+          <h2 class="text-3xl font-bold text-white flex items-center gap-3">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+            Información
+          </h2>
+        </div>
+
+        <div class="p-8 lg:p-12">
+          <% if @cultural.respond_to?(:rules) && @cultural.rules.present? %>
+            <div class="prose prose-lg prose-slate dark:prose-invert max-w-none">
+              <%= simple_format(@cultural.rules, class: "text-slate-700 dark:text-slate-300 leading-relaxed") %>
+            </div>
+          <% else %>
+            <!-- Placeholder si no hay reglamento -->
+            <div class="text-center py-12">
+              <div class="w-20 h-20 bg-slate-100 dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg class="w-10 h-10 text-slate-400 dark:text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+              </div>
+              <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">
+                Información en preparación
+              </h3>
+              <p class="text-slate-600 dark:text-slate-400">
+                La información detallada y reglamento de esta actividad estará disponible próximamente.
+              </p>
+            </div>
+          <% end %>
+
+          <!-- Botón de descarga -->
+          <% if @cultural.respond_to?(:rules_document) && @cultural.rules_document.attached? %>
+            <div class="mt-8 pt-8 border-t border-neutral-300 dark:border-slate-700">
+              <%= link_to rails_blob_path(@cultural.rules_document, disposition: "attachment"), class: "inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold rounded-xl transition-all duration-300 transform hover:-translate-y-0.5" do %>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+                Descargar Información PDF
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </article>
+    </div>
+  </div>
+</div>

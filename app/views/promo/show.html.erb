@@ -1,28 +1,244 @@
-<section class="header-promo">
-  <% if @promo.logo.attached? %>
-    <%= image_tag @promo.logo %>
-    <p>NOMBRE PROMO TODO</p>
-  <% end %>
-</section>
-
-<section class="members">
-  <h3>Integrantes</h3>
-  <% if @promo.students.any? %>
-    <% @promo.students.each do |student| %>
-      <% if student.image.attached? %>
-        <%= image_tag student.image %>
+<div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+    <div class="mb-8">
+      <%= link_to promo_index_path, class: "inline-flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors duration-300 group" do %>
+        <svg class="w-5 h-5 transform group-hover:-translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+        </svg>
+        <span class="font-medium">Volver a Promociones</span>
       <% end %>
-      <p><%= student.full_name %></p>
-    <% end %>
-  <% end %>
+    </div>
 
-  <nav class="paginacion">
-    <ul>
-      <li><a href="#">PAGINACION TODO</a></li>
-    </ul>
-  </nav>
-</section>
+    <div class="mb-12">
+      <div class="bg-white dark:bg-slate-800 rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-700">
+        <div class="relative">
+          <div class="px-8 p-8">
+            <div class="flex flex-col lg:flex-row lg:items-end gap-6 -mt-24">
+              <div class="relative flex-shrink-0">
+                <div class="w-32 h-32 bg-white dark:bg-slate-800 rounded-2xl border-4 border-white dark:border-slate-800 overflow-hidden flex items-center justify-center">
+                  <% if @promo.logo.attached? %>
+                    <%= image_tag @promo.logo,
+                        class: "w-full h-full object-contain p-3",
+                        alt: @promo.name %>
+                  <% else %>
+                    <div class="w-full h-full bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center">
+                      <span class="text-4xl font-black text-white">
+                        <%= @promo.name[0..1].upcase %>
+                      </span>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
 
-<section class="points">
-  <p>PUNTOS TODO</p>
-</section>
+              <div class="flex-1 mt-4 lg:mt-0 z-1">
+                <h1 class="text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white mb-2">
+                  <%= @promo.name.titleize %>
+                </h1>
+                <div class="flex flex-wrap items-center gap-4 text-slate-600 dark:text-slate-400">
+                  <% if @promo.respond_to?(:institute) && @promo.institute.present? %>
+                    <div class="flex items-center gap-2">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                      </svg>
+                      <span class="font-medium"><%= @promo.institute.name %></span>
+                    </div>
+                  <% end %>
+                  
+                  <% if @promo.students.any? %>
+                    <div class="flex items-center gap-2">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                      </svg>
+                      <span class="font-medium"><%= @promo.students.count %> integrantes</span>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+
+              <!-- Estadísticas destacadas (opcional) -->
+              <% if @promo.respond_to?(:total_points) %>
+                <div class="flex-shrink-0 bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 rounded-2xl p-6 border border-emerald-200 dark:border-emerald-800">
+                  <div class="text-center">
+                    <div class="text-4xl font-black text-emerald-600 dark:text-emerald-400 mb-1">
+                      <%= @promo.total_points || 0 %>
+                    </div>
+                    <div class="text-sm font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wide">
+                      Puntos Totales
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-12">
+      <div class="flex items-center justify-between mb-8">
+        <div class="flex items-center gap-4">
+          <h2 class="text-3xl font-bold text-slate-900 dark:text-white">
+            Integrantes
+          </h2>
+          <span class="px-3 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 rounded-full text-sm font-bold">
+            <%= @promo.students.count %>
+          </span>
+        </div>
+        <div class="h-px flex-1 bg-gradient-to-r from-slate-300 to-transparent dark:from-slate-700 ml-6"></div>
+      </div>
+
+      <% if @promo.students.any? %>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 mb-8">
+          <% @promo.students.each do |student| %>
+            <article class="group">
+              <div class="bg-white dark:bg-slate-800 rounded-2xl transition-all duration-300 overflow-hidden hover:-translate-y-1 border border-slate-200 dark:border-slate-700">
+                <div class="relative aspect-square overflow-hidden bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20">
+                  <% if student.image.attached? %>
+                    <%= image_tag student.image,
+                        class: "w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500",
+                        alt: student.full_name %>
+                  <% else %>
+                    <div class="w-full h-full flex items-center justify-center">
+                      <div class="w-20 h-20 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-full flex items-center justify-center transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                        <span class="text-2xl font-black text-white">
+                          <%= student.full_name.split.map(&:first).join.upcase[0..1] %>
+                        </span>
+                      </div>
+                    </div>
+                  <% end %>
+                </div>
+
+                <div class="p-3 text-center">
+                  <p class="text-sm font-semibold text-slate-900 dark:text-white leading-tight line-clamp-2 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors duration-300">
+                    <%= student.full_name %>
+                  </p>
+                </div>
+              </div>
+            </article>
+          <% end %>
+        </div>
+
+        <!-- Paginación (si es necesaria) -->
+        <% if defined?(@pagy) && @pagy %>
+          <nav class="flex items-center justify-center gap-2">
+            <!-- Botón anterior -->
+            <% if @pagy.prev %>
+              <%= link_to promo_path(@promo, page: @pagy.prev), class: "w-10 h-10 flex items-center justify-center rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:border-emerald-300 dark:hover:border-emerald-700 transition-colors duration-300" do %>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+              <% end %>
+            <% else %>
+              <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-400 dark:text-slate-600">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+              </div>
+            <% end %>
+
+            <!-- Números de página -->
+            <% @pagy.series.each do |item| %>
+              <% if item.is_a?(Integer) %>
+                <%= link_to item, promo_path(@promo, page: item), class: "w-10 h-10 flex items-center justify-center rounded-lg #{item == @pagy.page ? 'bg-emerald-600 text-white' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-emerald-50 dark:hover:bg-emerald-900/20'} font-semibold transition-colors duration-300" %>
+              <% elsif item == :gap %>
+                <span class="w-10 h-10 flex items-center justify-center text-slate-400 dark:text-slate-600">...</span>
+              <% end %>
+            <% end %>
+
+            <!-- Botón siguiente -->
+            <% if @pagy.next %>
+              <%= link_to promo_path(@promo, page: @pagy.next), class: "w-10 h-10 flex items-center justify-center rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:border-emerald-300 dark:hover:border-emerald-700 transition-colors duration-300" do %>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+              <% end %>
+            <% else %>
+              <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-400 dark:text-slate-600">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+              </div>
+            <% end %>
+          </nav>
+        <% end %>
+      <% else %>
+        <!-- Estado vacío de integrantes -->
+        <div class="flex flex-col items-center justify-center py-12 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700">
+          <div class="w-16 h-16 bg-slate-100 dark:bg-slate-700 rounded-full flex items-center justify-center mb-4">
+            <svg class="w-8 h-8 text-slate-400 dark:text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+            </svg>
+          </div>
+          <p class="text-slate-600 dark:text-slate-400">
+            No hay integrantes registrados aún.
+          </p>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Sección de Puntos y Rendimiento -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <!-- Card de puntos totales -->
+      <div class="bg-white dark:bg-slate-800 rounded-2xl p-8 border border-slate-200 dark:border-slate-700">
+        <div class="flex items-center gap-4 mb-6">
+          <div class="w-12 h-12 bg-emerald-100 dark:bg-emerald-900/30 rounded-xl flex items-center justify-center">
+            <svg class="w-6 h-6 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+            </svg>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900 dark:text-white">
+            Puntos Totales
+          </h3>
+        </div>
+        <div class="text-5xl font-black text-emerald-600 dark:text-emerald-400 mb-2">
+          <%= @promo.respond_to?(:total_points) ? @promo.total_points || 0 : 0 %>
+        </div>
+        <p class="text-sm text-slate-600 dark:text-slate-400">
+          Acumulados en todas las competencias
+        </p>
+      </div>
+
+      <!-- Card de posición (si está disponible) -->
+      <% if @promo.respond_to?(:ranking_position) && @promo.ranking_position %>
+        <div class="bg-white dark:bg-slate-800 rounded-2xl p-8 border border-slate-200 dark:border-slate-700">
+          <div class="flex items-center gap-4 mb-6">
+            <div class="w-12 h-12 bg-amber-100 dark:bg-amber-900/30 rounded-xl flex items-center justify-center">
+              <svg class="w-6 h-6 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
+              </svg>
+            </div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white">
+              Posición
+            </h3>
+          </div>
+          <div class="text-5xl font-black text-amber-600 dark:text-amber-400 mb-2">
+            #<%= @promo.ranking_position %>
+          </div>
+          <p class="text-sm text-slate-600 dark:text-slate-400">
+            En el ranking general
+          </p>
+        </div>
+      <% end %>
+
+      <!-- Card de participación -->
+      <div class="bg-white dark:bg-slate-800 rounded-2xl p-8 border border-slate-200 dark:border-slate-700">
+        <div class="flex items-center gap-4 mb-6">
+          <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-xl flex items-center justify-center">
+            <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900 dark:text-white">
+            Actividades
+          </h3>
+        </div>
+        <div class="text-5xl font-black text-blue-600 dark:text-blue-400 mb-2">
+          <%= @promo.respond_to?(:activities_count) ? @promo.activities_count || 0 : 0 %>
+        </div>
+        <p class="text-sm text-slate-600 dark:text-slate-400">
+          Participaciones registradas
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

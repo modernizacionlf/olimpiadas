@@ -1,11 +1,125 @@
-<div class="promos-container">
-  <% Institute.all.each do |institute| %>
-    <p><%= institute.name.titleize %></p>
-    <% institute.promos.each do |promo| %>
-      <% if promo.logo.attached? %>
-        <%= image_tag promo.logo %>
-        <% end %>
-      <p><%=link_to promo.name.titleize, promo_path(promo) %></p>
+<div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+    <div class="mb-16">
+      <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-6">
+        <div>
+          <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold text-slate-900 dark:text-white mb-3 tracking-tight">
+            Promociones
+          </h1>
+        </div>
+      </div>
+      
+      <p class="text-lg text-slate-600 dark:text-slate-300 max-w-3xl">
+        Conoce todas las promociones participantes de cada instituto. Cada promoción representa el espíritu y compromiso de sus integrantes.
+      </p>
+    </div>
+
+    <!-- Navegación rápida por institutos -->
+    <% if Institute.all.any? %>
+      <div class="mb-12 bg-white dark:bg-slate-800 rounded-2xl p-6 border border-neutral-300 dark:border-slate-700">
+        <h3 class="text-sm font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-4">
+          Ir a instituto:
+        </h3>
+        <div class="flex flex-wrap gap-3">
+          <% Institute.all.each do |institute| %>
+            <a href="#instituto-<%= institute.id %>" class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-50 dark:bg-emerald-900/20 hover:bg-emerald-100 dark:hover:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 rounded-lg font-medium text-sm transition-colors duration-300 border border-emerald-200 dark:border-emerald-800">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+              </svg>
+              <%= institute.name.titleize %>
+              <span class="px-2 py-0.5 bg-emerald-200 dark:bg-emerald-800 text-emerald-800 dark:text-emerald-200 rounded-full text-xs font-bold">
+                <%= institute.promos.count %>
+              </span>
+            </a>
+          <% end %>
+        </div>
+      </div>
     <% end %>
-  <% end %>
+
+    <% Institute.all.each do |institute| %>
+      <% if institute.promos.any? %>
+        <section id="instituto-<%= institute.id %>" class="mb-16 scroll-mt-8">
+          <div class="mb-8">
+            <div class="flex items-center gap-4 mb-4">
+              <div class="flex items-center justify-center w-14 h-14 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl">
+                <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                </svg>
+              </div>
+              <div>
+                <h2 class="text-3xl font-bold text-slate-900 dark:text-white">
+                  <%= institute.name.titleize %>
+                </h2>
+                <p class="text-slate-600 dark:text-slate-400 text-sm">
+                  <%= institute.promos.count %> <%= institute.promos.count == 1 ? 'promoción' : 'promociones' %>
+                </p>
+              </div>
+            </div>
+            <div class="h-px bg-gradient-to-r from-emerald-500/50 via-emerald-500/20 to-transparent"></div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <% institute.promos.each do |promo| %>
+              <%= link_to promo_path(promo), class: "group block" do %>
+                <article class="relative bg-white dark:bg-slate-800 rounded-2xl transition-all duration-300 overflow-hidden h-full flex flex-col hover:-translate-y-2 border border-neutral-300 dark:border-slate-700">
+                  <div class="relative h-48 overflow-hidden bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 flex items-center justify-center">
+                    <% if promo.logo.attached? %>
+                      <%= image_tag promo.logo,
+                          class: "w-full h-full object-contain p-6 transform group-hover:scale-110 transition-transform duration-700",
+                          alt: promo.name %>
+                    <% else %>
+                      <div class="w-28 h-28 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl flex items-center justify-center transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                        <span class="text-4xl font-black text-white">
+                          <%= promo.name[0..1].upcase %>
+                        </span>
+                      </div>
+                    <% end %>
+                  </div>
+
+                  <div class="p-6 flex-1 flex flex-col">
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3 leading-tight group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors duration-300">
+                      <%= promo.name.titleize %>
+                    </h3>
+
+                    <div class="mt-auto pt-4 border-t border-neutral-300 dark:border-slate-700">
+                      <div class="flex items-center justify-between text-sm">
+                        <% if promo.respond_to?(:students) && promo.students.any? %>
+                          <div class="flex items-center gap-2 text-slate-600 dark:text-slate-400">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                            </svg>
+                            <span><%= promo.students.count %> <%= promo.students.count == 1 ? 'integrante' : 'integrantes' %></span>
+                          </div>
+                        <% end %>
+
+                        <svg class="w-5 h-5 text-emerald-600 dark:text-emerald-400 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              <% end %>
+            <% end %>
+          </div>
+        </section>
+      <% end %>
+    <% end %>
+
+    <% if Institute.all.empty? || Institute.all.all? { |i| i.promos.empty? } %>
+      <div class="flex flex-col items-center justify-center py-20">
+        <div class="w-24 h-24 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mb-6">
+          <svg class="w-12 h-12 text-slate-400 dark:text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+          </svg>
+        </div>
+        <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">
+          No hay promociones disponibles
+        </h3>
+        <p class="text-slate-600 dark:text-slate-400 text-center max-w-md">
+          Las promociones participantes se mostrarán próximamente.
+        </p>
+      </div>
+    <% end %>
+  </div>
 </div>

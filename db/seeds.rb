@@ -1,13 +1,3 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
-
 User.create!(
   email_address: 'admin@gmail.com',
   password: 'test',
@@ -16,16 +6,22 @@ User.create!(
 )
 
 # Lugares
-['cef', 'natatorio municipal', 'polideportivo municipal'].each do |place|
+[
+  'parque plaza montero',
+  'teatro español',
+  'C.E.F. N°6',
+  'la terraza',
+  'centro recreativo municipal',
+].each do |place|
   Place.create!(name: place)
 end
 
 # Deportes
-%w[tenis natacion futbol].each do |sport|
+['futbol', 'basquet', 'ping pong'].each do |sport|
   Sport.create!(name: sport)
 end
 
-['fase de grupos', 'octavos', 'cuartos', 'semifinal', 'final'].each do |game_instance|
+['primera fase', 'primer partido', 'fase de grupos', 'octavos', 'cuartos', 'semifinal', 'final'].each do |game_instance|
   GameInstance.create!(name: game_instance)
 end
 
@@ -34,12 +30,11 @@ end
   ActivityType.create!(name: activity_type)
 end
 
-activities = [
+sport_activities = [
   {
     game_instance: 'fase de grupos',
     sport: 'futbol',
-    activity_type: 'sport',
-    place: 'cef',
+    place: 'la terraza',
     date_of: Date.today.next_day(5),
     start_at: '16:00',
     end_at: '17:00'
@@ -47,21 +42,35 @@ activities = [
   {
     game_instance: 'fase de grupos',
     sport: 'futbol',
-    activity_type: 'sport',
-    place: 'cef',
+    place: 'la terraza',
     date_of: Date.today.next_day(7),
     start_at: '16:30',
     end_at: '17:30'
   },
+  {
+    game_instance: 'primera fase',
+    sport: 'ping pong',
+    place: 'centro recreativo municipal',
+    date_of: Date.today.next_day(3),
+    start_at: '17:00',
+    end_at: '18:30'
+  },
+  {
+    game_instance: 'primer partido',
+    sport: 'basquet',
+    place: 'C.E.F. N°6',
+    date_of: Date.today.next_day(3),
+    start_at: '17:00',
+    end_at: '18:30'
+  }
 ]
 
-activities.each do |activity|
+sport_activities.each do |activity|
   game_instance = GameInstance.find_by(name: activity[:game_instance])
   sport = Sport.find_by(name: activity[:sport])
   game = Game.create!(sport: sport, instance: game_instance)
 
-
-  activity_type = ActivityType.find_by(name: activity[:activity_type])
+  activity_type = ActivityType.find_by(name: 'sport')
   place = Place.find_by(name: activity[:place])
 
   Activity.create!(
@@ -71,6 +80,57 @@ activities.each do |activity|
     place: place,
     activity_type: activity_type,
     game: game
+  )
+end
+
+cultural_activities = [
+  {
+    title: 'se realizó la etapa ambiental de las olimpíadas juveniles florenses',
+    description: 'De esta manera quedó inaugurado el «Jardín de Mariposas» en nuestra querida laguna, aquí los jóvenes podrán disfrutar junto a sus familias y amigos de este lugar que ellos mismos crearon.',
+    date_of: Date.today.next_day(4),
+    start_at: '16:00',
+    end_at: '18:00',
+    filename: 'etapa_ambiental',
+    content_type: 'jpeg',
+    place: 'parque plaza montero'
+  },
+  {
+    title: 'llega el certamen de preguntas y respuestas de la etapa educativa de las olimpíadas juveniles florenses',
+    description: 'Durante la tarde se desarrollará el tradicional certamen de preguntas y respuestas donde alumnos y alumnas de las Escuelas participantes deberán contestar sobre matemáticas, geografía, historia de Las Flores, cultura general, entre otros ejes temáticos. En marco de esta instancia, los estudiantes vienen realizando capacitaciones y pruebas a través de las cuales practican sobre la dinámica que utilizarán para responder las preguntas y las herramientas tecnológicas que se usarán para el concurso.',
+    date_of: Date.today.next_day(5),
+    start_at: '15:00',
+    end_at: '17:00',
+    filename: 'preguntas_y_respuestas',
+    content_type: 'jpg',
+    place: 'teatro español'
+  }
+]
+
+cultural_activities.each do |activity|
+  cultural = Cultural.create!(
+    title: activity[:title],
+    description: activity[:description]
+  )
+  cultural.image.attach(
+    io: File.open(
+      Rails.root.join(
+        'app', 'assets', 'images', 'cultural', "#{activity[:filename]}.#{activity[:content_type]}"
+      )
+    ),
+    filename: "#{activity[:filename]}.#{activity[:content_type]}",
+    content_type: "image/#{activity[:content_type]}"
+  )
+
+  activity_type = ActivityType.find_by(name: 'cultural')
+  place = Place.find_by(name: activity[:place])
+
+  Activity.create(
+    date_of: activity[:date_of],
+    start_at: activity[:start_at],
+    end_at: activity[:end_at],
+    place: place,
+    activity_type: activity_type,
+    cultural: cultural
   )
 end
 
@@ -220,23 +280,58 @@ ActivityStudent.where(
 # Noticias
 notices = [
   {
-    title: 'escuela san miguel se corona campeona en el torneo de fútbol',
-    description: 'la final del torneo intercolegial de fútbol celebrado en el estadio municipal se vivió con una gran tensión. la escuela san martín logró vencer a la escuela la providencia por 3-1, llevando el trofeo de campeones a casa. el equipo destacó por su juego en equipo y la gran actuación de su delantero estrella, javier ramírez, quien anotó dos goles cruciales.'
+    title: 'se realizó la etapa ambiental de las olimpíadas juveniles florenses',
+    description: 'De esta manera quedó inaugurado el «Jardín de Mariposas» en nuestra querida laguna, aquí los jóvenes podrán disfrutar junto a sus familias y amigos de este lugar que ellos mismos crearon.',
+    filename: 'etapa_ambiental',
+    content_type: 'jpeg'
   },
   {
-    title: 'escuela numero 4 alcanza los 100 metros de atletismo',
-    description: 'en un evento lleno de emoción, la escuela secundaria la paz destacó en la competencia de atletismo, especialmente en los 100 metros planos. la atleta ana rodríguez cruzó la meta en 11.8 segundos, superando a sus rivales por casi medio segundo. este logro marca el segundo campeonato consecutivo en esta categoría para la paz.'
+    title: 'llega el certamen de preguntas y respuestas de la etapa educativa de las olimpíadas juveniles florenses',
+    description: 'Durante la tarde se desarrollará el tradicional certamen de preguntas y respuestas donde alumnos y alumnas de las Escuelas participantes deberán contestar sobre matemáticas, geografía, historia de Las Flores, cultura general, entre otros ejes temáticos. En marco de esta instancia, los estudiantes vienen realizando capacitaciones y pruebas a través de las cuales practican sobre la dinámica que utilizarán para responder las preguntas y las herramientas tecnológicas que se usarán para el concurso.',
+    filename: 'preguntas_y_respuestas',
+    content_type: 'jpg'
   },
   {
-    title: 'torneo de básquetbol: la escuela normal da la sorpresa',
-    description: 'en un inesperado giro, la escuela el sol derrotó al campeón defensor, el colegio américa, en la final del torneo interescolar de básquetbol. el partido terminó 52-48, con un último minuto dramático que incluyó un triple desde medio campo de carlos garcía, el jugador más destacado del torneo. este triunfo marca la primera vez que el sol gana este certamen.'
+    title: 'con gran éxito y un excelente nivel de las olimpíadas juveniles florenses',
+    description: 'En este caso fue el turno de la Etapa Deportiva 2, compuesta por Natación, Básquet y Tejo.
+      El miércoles, en una vibrante tarde de feriado, las instalaciones de la pileta climatizada del Natatorio Municipal “Hugo Mauro” se llenaron de color con la competencia de natación. Las categorías disputadas fueron 50 metros libre (masculino y femenino), 50 metros pecho (masculino y femenino) y posta mixta, quedando en 1° lugar el Colegio San Miguel según la sumatoria de puntos. El viernes en el gimnasio del C.E.F. N°6 se disputó uno de los deportes más esperados: el básquet. Los equipos desplegaron todo su talento y resultó ganadora la Secundaria N°1 (Escuela Media). Por último, el sábado se llevó a cabo la competencia de Tejo. Los chicos compartieron una emocionante jornada con los adultos mayores del Centro Tejista Florense, donde participaron en conjunto en tres categorías y el primer puesto fue compartido por la Escuela Dante Alighieri; la Secundaria N°2 (Normal) y el equipo conformado por la Escuela Técnica, la Secundaria N°3 y la Secundaria N°4.',
+    filename: 'natacion',
+    content_type: 'jpg'
   },
   {
-    title: 'gran final de voleibol entre escuela técnica y colegio san felipe termina en empate',
-    description: 'la gran final del torneo interescolar de voleibol terminó en un empate técnico después de un intenso partido entre la escuela técnica y el colegio san felipe. el marcador final fue 2-2, debido a que el partido se suspendió por condiciones climáticas adversas. ambos equipos tendrán que disputar un desempate la próxima semana.'
-  }
+    title: 'en una vibrante jornada de tenis de mesa, se definió la primera etapa deportiva de las olimpíadas juveniles florenses',
+    description: 'Ayer jueves el Centro Recreativo Municipal «Néstor Kirchner» fue el escenario de una tarde llena de color y energía en el marco de una nueva edición de las Olimpíadas.
+      Se disputaron las disciplinas de Tenis de Mesa (individual masculino e individual femenino). Las mascotas y las hinchadas, con sus bombos, platillos y hasta megáfonos fueron los protagonistas indiscutidos.',
+    filename: 'ping_pong',
+    content_type: 'jpg'
+  },
+  {
+    title: 'se disputó el primer deporte de las olimpiadas juveniles florenses',
+    description: 'El sábado por la mañana en el complejo La Terraza los equipos participaron del primer encuentro deportivo en el marco de la Etapa Deportiva 1 de las Olimpiadas Juveniles Florenses',
+    filename: 'futbol',
+    content_type: 'jpg'
+  },
+  {
+    title: 'la escuela dante alighieri ganó las olimpíadas juveniles florenses',
+    description: 'Este sábado 15 por la tarde vivimos el gran cierre de las Olimpíadas Juveniles Florenses 2025 y la jornada final estuvo marcada por la Etapa Educativa, presentada en su formato “Gran Juego de la Ciudad”. Los equipos recorrieron Las Flores pasando por distintas postas ubicadas en lugares claves de nuestro patrimonio histórico y natural. Fue una forma distinta de aprender y mirar la ciudad desde otro lugar, acercando nuestra historia a las nuevas generaciones. Al finalizar el recorrido, familias, amigos y equipos se reunieron en Plaza Mitre, donde compartimos los videos que resumieron todas las etapas del año. Finalmente, llegó el momento más esperado: se reveló al gran ganador de la edición 2025, que por la sumatoria total de puntos fue la Escuela Dante Alighieri.',
+    filename: 'coronacion',
+    content_type: 'jpeg'
+  },
 ]
 
 notices.each do |notice|
-  Release.create!(notice)
+  release = Release.build(
+    title: notice[:title],
+    description: notice[:description]
+  )
+  release.image.attach(
+    io: File.open(
+      Rails.root.join(
+        'app', 'assets', 'images', 'releases', "#{notice[:filename]}.#{notice[:content_type]}"
+      )
+    ),
+    filename: "#{notice[:filename]}.#{notice[:content_type]}",
+    content_type: "image/#{notice[:content_type]}"
+  )
+  release.save!
 end

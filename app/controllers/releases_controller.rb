@@ -4,6 +4,7 @@ class ReleasesController < ApplicationController
   def index
     @releases = Release.all.first(6)
     @most_viewed = Release.order(views: :desc).limit(1).take
+    @current_year = Time.current.year
   end
 
   def show

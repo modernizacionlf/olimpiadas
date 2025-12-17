@@ -1,59 +1,197 @@
+<div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+    <div class="mb-8">
+      <%= link_to sports_path, class: "inline-flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300 group" do %>
+        <svg class="w-5 h-5 transform group-hover:-translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+        </svg>
+        <span class="font-medium">Volver a Deportes</span>
+      <% end %>
+    </div>
 
-<div>
-  <h3><%= @sport.name.titleize %></h3>
-</div>
-
-<% if @activities %>
-  <% @activities.each do |activity| %>
-    <% if activity.game %>
-      <% grouped_students = activity.activity_students.group_by(&:together) %>
-      <% together_promos = grouped_students[true]&.map { |as| as.student.promo}&.uniq || [] %>
-      <% separate_promos = grouped_students[false]&.map { |as| as.student.promo}&.uniq || [] %>
-
-      <section class="game-container">
-        <div class="game">
-          <p><%= activity.game.instance.name.titleize %></p>
-
-          <div class="game-results">
-            <% if together_promos.any? && separate_promos.size == 1 %>
-              <div class="result-a">
-                <div class="promo-group together">
-                  <% together_promos.each do |promo| %>
-                    <%= image_tag promo.logo %>
-                  <% end %>
-                </div>
-              <p><%= activity.game.result_a %></p>
-              </div>
-
-              <div class="result-b">
-                <div class="promo-group separate">
-                  <% separate_promos.each do |promo| %>
-                    <%= image_tag promo.logo %>
-                  <% end %>
-                </div>
-                <p><%= activity.game.result_b %></p>
-              </div>
-
-            <% elsif separate_promos.size == 2 %>
-              <% result_pairs = separate_promos.zip([activity.game.result_a, activity.game.result_b]) %>
-              <% result_pairs.each_with_index do |(promo, result), index| %>
-                <div class="result-<%= index == 0 ? 'a' : 'b' %>">
-                  <div class="promo-group separate">
-                    <%= image_tag promo.logo %>
-                  </div>
-                  <p><%= result %></p>
-                </div>
-              <% end %>
-            <% end %>
+    <div class="mb-12">
+      <div class="rounded-3xl p-8 lg:p-12">
+        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+          <div class="flex items-center gap-6">
+            <div>
+              <h1 class="text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white mb-2">
+                <%= @sport.name.titleize %>
+              </h1>
+            </div>
           </div>
         </div>
-      </section>
-    <% end %>
-  <% end %>
-<% end %>
+      </div>
+    </div>
 
-<section class="rules-container">
-  <h3>Reglamento de:TODO_NOMBRE_DEPORTE</h3>
-  <p>TODO_REGLAMENTO_TEXTO</P>
-  <button class"rules-button">DESCARGAR_TODO</button>
-</section>
+    <% if @activities.present? %>
+      <div class="mb-16">
+        <div class="flex items-center gap-4 mb-8">
+          <h2 class="text-3xl font-bold text-slate-900 dark:text-white">
+            Juegos y Resultados
+          </h2>
+          <div class="h-px flex-1 bg-gradient-to-r from-slate-300 to-transparent dark:from-slate-700"></div>
+        </div>
+
+        <div class="space-y-6">
+          <% @activities.each_with_index do |activity, index| %>
+            <% if activity.game %>
+              <% grouped_students = activity.activity_students.group_by(&:together) %>
+              <% together_promos = grouped_students[true]&.map { |as| as.student.promo}&.uniq || [] %>
+              <% separate_promos = grouped_students[false]&.map { |as| as.student.promo}&.uniq || [] %>
+
+              <article class="bg-white dark:bg-slate-800 rounded-2xl transition-all duration-300 overflow-hidden border-1 border-neutral-300 dark:border-slate-700">
+                <div class="bg-blue-400 px-6 py-4">
+                  <div class="flex items-center justify-between">
+                    <h3 class="text-xl font-bold text-white flex items-center gap-3">
+                      <%= activity.game.instance.name.titleize %>
+                    </h3>
+                    <span class="px-3 py-1 bg-white/20 backdrop-blur-sm text-white text-sm font-semibold rounded-full">
+                      En curso
+                    </span>
+                  </div>
+                </div>
+
+                <div class="p-8">
+                  <% if together_promos.any? && separate_promos.size == 1 %>
+                    <!-- Caso: Equipos juntos vs equipo separado -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+                      <!-- Equipo A (together) -->
+                      <div class="text-center">
+                        <div class="mb-4">
+                          <div class="flex items-center justify-center gap-3 mb-3">
+                            <% together_promos.each do |promo| %>
+                              <div class="w-20 h-20 rounded-xl overflow-hidden ring-4 ring-blue-100 dark:ring-blue-900/30">
+                                <%= image_tag promo.logo, class: "w-full h-full object-cover", alt: promo.name %>
+                              </div>
+                            <% end %>
+                          </div>
+                          <span class="inline-block px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-semibold rounded-full">
+                            Equipo Unidos
+                          </span>
+                        </div>
+                        <div class="text-5xl font-bold text-slate-900 dark:text-white">
+                          <%= activity.game.result_a || "-" %>
+                        </div>
+                      </div>
+
+                      <div class="flex items-center justify-center">
+                        <div class="w-16 h-16 bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-700 dark:to-slate-800 rounded-full flex items-center justify-center">
+                          <span class="text-2xl font-black text-slate-600 dark:text-slate-400">VS</span>
+                        </div>
+                      </div>
+
+                      <!-- Equipo B (Separate) -->
+                      <div class="text-center">
+                        <div class="mb-4">
+                          <div class="flex items-center justify-center gap-3 mb-3">
+                            <% separate_promos.each do |promo| %>
+                              <div class="w-20 h-20 rounded-xl overflow-hidden ring-4 ring-indigo-100 dark:ring-indigo-900/30">
+                                <%= image_tag promo.logo, class: "w-full h-full object-cover", alt: promo.name %>
+                              </div>
+                            <% end %>
+                          </div>
+                          <span class="inline-block px-3 py-1 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 text-xs font-semibold rounded-full">
+                            Equipo Individual
+                          </span>
+                        </div>
+                        <div class="text-5xl font-bold text-slate-900 dark:text-white">
+                          <%= activity.game.result_b || "-" %>
+                        </div>
+                      </div>
+                    </div>
+
+                  <% elsif separate_promos.size == 2 %>
+                    <!-- Caso: Dos equipos separados -->
+                    <% result_pairs = separate_promos.zip([activity.game.result_a, activity.game.result_b]) %>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+                      <% result_pairs.each_with_index do |(promo, result), pair_index| %>
+                        <!-- Equipo -->
+                        <div class="text-center <%= 'md:order-3' if pair_index == 1 %>">
+                          <div class="mb-4">
+                            <div class="flex items-center justify-center mb-3">
+                              <div class="w-20 h-20 rounded-xl overflow-hidden ring-4 ring-<%= pair_index == 0 ? 'blue' : 'indigo' %>-100 dark:ring-<%= pair_index == 0 ? 'blue' : 'indigo' %>-900/30">
+                                <%= image_tag promo.logo, class: "w-full h-full object-cover", alt: promo.name %>
+                              </div>
+                            </div>
+                            <span class="inline-block px-3 py-1 bg-<%= pair_index == 0 ? 'blue' : 'indigo' %>-100 dark:bg-<%= pair_index == 0 ? 'blue' : 'indigo' %>-900/30 text-<%= pair_index == 0 ? 'blue' : 'indigo' %>-700 dark:text-<%= pair_index == 0 ? 'blue' : 'indigo' %>-300 text-xs font-semibold rounded-full">
+                              Equipo <%= pair_index == 0 ? 'A' : 'B' %>
+                            </span>
+                          </div>
+                          <div class="text-5xl font-bold text-slate-900 dark:text-white">
+                            <%= result || "-" %>
+                          </div>
+                        </div>
+
+                        <% if pair_index == 0 %>
+                          <!-- VS -->
+                          <div class="flex items-center justify-center md:order-2">
+                            <div class="w-16 h-16 bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-700 dark:to-slate-800 rounded-full flex items-center justify-center">
+                              <span class="text-2xl font-black text-slate-600 dark:text-slate-400">VS</span>
+                            </div>
+                          </div>
+                        <% end %>
+                      <% end %>
+                    </div>
+                  <% end %>
+                </div>
+              </article>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="mb-16">
+      <article class="bg-white dark:bg-slate-800 rounded-3xl overflow-hidden border-1 border-neutral-300 dark:border-slate-700">
+        <!-- Header del reglamento -->
+        <div class="bg-indigo-400 px-8 py-6">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <h2 class="text-3xl font-bold text-white flex items-center gap-3">
+              <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+              </svg>
+              Reglamento de <%= @sport.name.titleize %>
+            </h2>
+          </div>
+        </div>
+
+        <!-- Contenido del reglamento -->
+        <div class="p-8 lg:p-12">
+          <% if @sport.respond_to?(:rules) && @sport.rules.present? %>
+            <!-- Si hay reglamento real -->
+            <div class="prose prose-lg prose-slate dark:prose-invert max-w-none">
+              <%= simple_format(@sport.rules, class: "text-slate-700 dark:text-slate-300 leading-relaxed") %>
+            </div>
+          <% else %>
+            <!-- Placeholder si no hay reglamento -->
+            <div class="text-center py-12">
+              <div class="w-20 h-20 bg-slate-100 dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg class="w-10 h-10 text-slate-400 dark:text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+              </div>
+              <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">
+                Reglamento en preparación
+              </h3>
+              <p class="text-slate-600 dark:text-slate-400">
+                El reglamento oficial de <%= @sport.name.titleize %> estará disponible próximamente.
+              </p>
+            </div>
+          <% end %>
+
+          <!-- Botón de descarga -->
+          <% if @sport.respond_to?(:rules_document) && @sport.rules_document.attached? %>
+            <div class="mt-8 pt-8 border-t border-slate-200 dark:border-slate-700">
+              <%= link_to rails_blob_path(@sport.rules_document, disposition: "attachment"), class: "inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-xl transition-all duration-300 transform hover:-translate-y-0.5" do %>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+                Descargar Reglamento PDF
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </article>
+    </div>
+  </div>
+</div>
